@@ -9,7 +9,7 @@ static int lastIndex, sourceIndex, lineIndex, colIndex;
 
 void initialize(string sourceTextArg){
 	sourceText = sourceTextArg;
-	lastIndex = sourceText.length - 1;
+	lastIndex = sourceText.length() - 1;
 	sourceIndex = -1;
 	lineIndex = 0;
 	colIndex = -1;
@@ -17,9 +17,8 @@ void initialize(string sourceTextArg){
 
 Character get(){
 	sourceIndex += 1;
-
 	if(sourceIndex > 0){
-		if(sourceText[sourceIndex] - 1 == "\n"){
+		if(sourceText[sourceIndex - 1] == '\n'){
 			//previous character was a newline so we start a new line and increment;
 			lineIndex += 1;
 			colIndex = -1;
