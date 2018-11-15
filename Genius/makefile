@@ -25,14 +25,17 @@ default: genius
 # To create the executable file count we need the object files
 # countwords.o, counter.o, and scanner.o:
 #
-genius:  genius.o
+genius:  genius.o character.o
 	$(CC) $(CFLAGS) -o genius genius.o 
 
 # To create the object file countwords.o, we need the source
 # files countwords.c, scanner.h, and counter.h:
 #
-genius.o:  Genius.cpp 
+genius.o:  Genius.cpp character.h
 	$(CC) $(CFLAGS) -c Genius.cpp
+
+character.o: character.cpp character.h
+	$(CC) $(CFLAGS) -c character.cpp
 
 # To create the object file counter.o, we need the source files
 # counter.c and counter.h:

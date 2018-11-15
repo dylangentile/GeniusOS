@@ -1,11 +1,10 @@
 #include <stdio.h>
+#include <iostream>
 #include "character.h"
-#define BUFSIZE 1000
+#define BUFSIZE 100000
 
 int main(int argc, char const *argv[])
 {
-	
-//hello
     FILE *fp = fopen(argv[1], "r"); 
 
     char buff[BUFSIZE]; 
@@ -14,8 +13,12 @@ int main(int argc, char const *argv[])
        
 
         printf ("%s\n", buff); 
-    }
-    fclose(fp);  
 
-	return 0;
+    }
+
+
+
+fclose(fp);  
+std::cout << '\n';
+return 0;
 }
