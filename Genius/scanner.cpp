@@ -7,7 +7,7 @@ using namespace std;
 static string sourceText;
 static int lastIndex, sourceIndex, lineIndex, colIndex;
 
-void initialize(string sourceTextArg){
+void scannerInit(string sourceTextArg){
 	sourceText = sourceTextArg;
 	lastIndex = sourceText.length() - 1;
 	sourceIndex = -1;
@@ -15,7 +15,7 @@ void initialize(string sourceTextArg){
 	colIndex = -1;
 }
 
-Character get(){
+Character getChar(){
 	sourceIndex += 1;
 	if(sourceIndex > 0){
 		if(sourceText[sourceIndex - 1] == '\n'){

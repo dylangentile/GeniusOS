@@ -28,9 +28,9 @@ fclose(fp);
 	Character z;
 
 	std::cout << "\nHere are the characters returned by the scanner:\n" << "  line col  character\n";
-	initialize(content);
+	scannerInit(content);
 
-	z = get();
+	z = getChar();
 	while(true){
 		std::cout << str(z) << '\n';
 		//std::cout << z.lineIndex << "\t" << z.colIndex << "\t" << z.cargo << '\n';
@@ -38,7 +38,7 @@ fclose(fp);
 			break;
 		}
 
-		z = get();
+		z = getChar();
 	}
 
 	std::cout << '\n';

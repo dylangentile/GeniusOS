@@ -1,6 +1,6 @@
 #pragma once
 #include "character.h"
 #include <string>
-void initialize(std::string sourceTextArg);
-Character get();
+void scannerInit(std::string sourceTextArg);
+Character getChar();
 //test
