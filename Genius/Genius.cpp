@@ -32,7 +32,8 @@ fclose(fp);
 
 	z = get();
 	while(true){
-		std::cout << z.lineIndex << "\t" << z.colIndex << "\t" << z.cargo << '\n';
+		std::cout << str(z) << '\n';
+		//std::cout << z.lineIndex << "\t" << z.colIndex << "\t" << z.cargo << '\n';
 		if(z.cargo == "\0"){
 			break;
 		}

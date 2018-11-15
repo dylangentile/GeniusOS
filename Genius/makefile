@@ -53,7 +53,7 @@ MAIN = genius
 .PHONY: depend clean
 
 all:    $(MAIN)
-		@echo  Simple compiler named genius has been compiled
+		@echo  Compiler named genius has been compiled, You are welcome
 
 $(MAIN): $(OBJS) 
 		$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)

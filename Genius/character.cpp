@@ -24,6 +24,7 @@ string str(Character token){
 		token.cargo = "   eof";
 	}
 
-	
-return "mexow";
+string ret = rjust(6, to_string(token.lineIndex)) + rjust(4, to_string(token.colIndex)) + "  " + token.cargo;
+
+return ret;
 }
