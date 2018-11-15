@@ -9,6 +9,13 @@ string rjust(int x, string s){
 	}
 	return s;
 }
+string ljust(int x, char filler, std::string s){
+	for(int i = 0; i < x-s.size(); i++)
+	{
+		s = s + filler;
+	}
+	return s;
+}
 string str(Character token){
 	if(token.cargo == " "){
 		token.cargo = "   space";

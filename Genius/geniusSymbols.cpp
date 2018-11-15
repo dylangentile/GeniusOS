@@ -27,6 +27,17 @@ public:
 	char OneCharSymbols[13] = {'=','(',')','<','>','/','*','+','-','!','&','.',';'};
 
 	char TwoCharSymbols[11]={'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
+	char StringStartChars[2]={"'",'"'};
+	char WhitespaceChars[3]={' ', '\t','\n'};
 
+	vector<string> TokenTypes;
+	TokenTypes.push_back("String");
+	TokenTypes.push_back("Identifier");
+	TokenTypes.push_back("Number");
+	TokenTypes.push_back("Whitespace");
+	TokenTypes.push_back("Comment");
+	TokenTypes.push_back("Eof");
+	
+	
 
 
