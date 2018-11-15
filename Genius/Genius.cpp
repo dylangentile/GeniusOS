@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-#include <iomanip>
+#include "scanner.h"
 #include "character.h"
 #define BUFSIZE 100000
 

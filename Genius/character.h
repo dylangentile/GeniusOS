@@ -4,7 +4,7 @@
 
 std::string rjust(int x, std::string s);
 
-
+//python def __init__(self, c, lineIndex, colIndex, sourceIndex, sourceText) order in which he'll input variables;
 typedef struct {
 	std::string cargo;
 	int sourceIndex, lineIndex, colIndex;
