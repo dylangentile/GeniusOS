@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <iomanip>
 #include "character.h"
 #define BUFSIZE 100000
 
@@ -15,8 +16,6 @@ int main(int argc, char const *argv[])
         printf ("%s\n", buff); 
 
     }
-
-
 
 fclose(fp);  
 std::cout << '\n';
