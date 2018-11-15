@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #define BUFSIZE 1000
 
 int main(int argc, char const *argv[])

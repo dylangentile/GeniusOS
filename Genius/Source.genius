@@ -2,7 +2,7 @@ char z;
 
 main() {
 
-push "poop";
+push "hello";
 
 pull -> z;
 
