@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "character.h"
 #define BUFSIZE 1000
 
 int main(int argc, char const *argv[])
