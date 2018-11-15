@@ -1,0 +1,11 @@
+char z;
+
+main() {
+
+push "poop";
+
+pull -> z;
+
+}
+
+quit;
