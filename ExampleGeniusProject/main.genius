@@ -4,12 +4,12 @@ char z;
 main(io,cc) {
 
 string z = "hello";
-push z -> o;
+push z -> o[c];
 string j;
 
-pull i -> j;
+pull i[c] -> j;
 
-push j -> o;
+push j -> o[c];
 
 }
 
