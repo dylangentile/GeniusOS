@@ -1,5 +1,5 @@
-# GeniusOS
-It's an operating system and cross platform development environment with Genius, the programming suite, included.
+# Genius
+The Genius High Level, genius ;), programming language compiler, Angry Einstein.
 
 ## Installation
 First clone into this. For those who don't know how to use git or don't have git on windows, follow the following procedure.
