@@ -3,14 +3,15 @@ char z;
 //Here's an example program that prints "hello" and then pulls an argument from user input
 main(io,cc) { //cc are read only ints. The program will increment them however. This is simply a convienient way to keep track of the input and output streams.
 
-string z = "hello";
-push z -> o[c];
-string j;
+loop(50){string z = "hello";
+         push z -> o[c];
+         string j;
 
-pull i[c] -> j;
+         pull i[c] -> j;
 
-push j -> o[c];
+         push j -> o[c];
 
+        }
 }
 
 quit;
