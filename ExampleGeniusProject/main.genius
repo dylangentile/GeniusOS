@@ -1,8 +1,57 @@
+//types: string, num, bool
+
+
+
+
+new struct tokens{
+	
+	string type;
+	string value;
+
+}
+
+
 
 main(io,cc){
-pull i -> z; //z is implied as string;
+	pull i -> z; //z is implied as string;
+	tokens.array h;
+num j = 0, len = 0, fstchr = -1;
+	loop(z.size(),x){
+		if {
+fstchr == -1 && isNumber(z[x])
+}
+then{
+fstchr = z[x];
+}
 
 
+
+
+
+if{
+isNumber(z[x]) != true
+} 
+then{
+	fstchr = -1;
+			h[j].type = “num”;
+h[j].value = z[fstchr, len];
+			j++;
+			h[j].type = “op”;
+			h[j].value = z[x];
+			j++;
+			
+
+}
+		else{
+		len++;
+		}
+
+}
+num ret;
+loop(h.size(), w){
+	if{h[w].type == “num”}then{ret = h[w] to_operator(h[w+1]) h[w+2] to_operator(h[w+3])}
+
+}
 
 }
 
@@ -28,7 +77,7 @@ $2037
 //This is a comment
 //Here's an example program that prints "hello" and then pulls an argument from user input
 /*
-main(io,cc) { //cc are read only ints. The program will increment them however. This is simply a convienient way to keep track of the input and output streams.
+main(io,cc) { //cc are read only ints. The program will increment them however. This is simply a convenient way to keep track of the input and output streams.
 
 string z = "hello";
 push z -> o[c];
@@ -55,3 +104,4 @@ $>this is functional
 $this is functional
 
 */
+
