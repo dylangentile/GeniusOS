@@ -6,7 +6,7 @@ typedef struct{
 	std::string type;
 } Token;
 
-std::string show(Token self, bool showLineNumbers, bool align);
+
 
 typedef enum TokenID
 {
@@ -44,7 +44,6 @@ typedef enum TokenID
 	kToken_PLUSEQUALS, 
 	kToken_MINUSEQUALS, 
 	kToken_OR, 
-	kToken_, 
 	kToken_QUOTE, 
 	kToken_SPACE, 
 	kToken_TAB, 
@@ -53,9 +52,26 @@ typedef enum TokenID
 	kToken_IDENTIFIER, 
 	kToken_WHITESPACE, 
 	kToken_NUMBER, 
-	kToken_COMMENT
-	
+	kToken_COMMENT,
+	kToken_EOF
 	
 };
 
+class Tokenizer{
 
+public:
+	std::string show(Token self, bool showLineNumbers, bool align);
+
+	Tokenizer();
+	~Tokenizer();
+
+private:
+
+
+
+
+
+
+
+
+}

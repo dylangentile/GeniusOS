@@ -1,5 +1,5 @@
 #include "scanner.h"
-#include "token.h"
+#include "tokenizer.h"
 #include "character.h"
 #include "geniusSymbols.h"
 #include <algorithm> //for find
@@ -7,16 +7,21 @@
 #include <vector>
 
 
+Lexer::Lexer(){
 
+}
+Lexer::~Lexer(){
 
-void lexerInit(string srcTxt){
+}
+
+void Lexer::lexerInit(string srcTxt){
 
 	initialize(srcTxt);
 	static int g = 5;
 	static Character x1 = getChar();
 }
 
-Token lexer()
+Token Lexer::lexerMain()
 {
 	Token retPackage;
 	if(g != 5){
@@ -48,3 +53,5 @@ Token lexer()
 	}
 
 }
+
+void Lexer::getCharPackage()

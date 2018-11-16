@@ -1,11 +1,25 @@
-#include "token.h"
+#include "tokenizer.h"
 #include "scanner.h"
 #include "character.h"
 #include <string>
 
 using namespace std;
+Tokenizer::Tokenizer(){
 
-string show(Token self, bool showLineNumbers, bool align){
+
+
+}
+
+Tokenizer::~Tokenizer(){
+
+
+
+	
+}
+
+
+
+string Tokenizer::show(Token self, bool showLineNumbers, bool align){
 	int tokenTypeLen;
 	string s;
 	string space;

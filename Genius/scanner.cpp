@@ -65,3 +65,18 @@ Character Scanner::getChar(){
 
 	return w;
 }
+
+string Scanner::lookahead(int offset){
+	index = sourceIndex + offset;
+
+	if(index > lastIndex){
+		return "\0";
+	} else{
+		return sourceText[index];
+	}
+}
+
+
+
+
+
