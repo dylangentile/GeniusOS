@@ -1,17 +1,16 @@
 char z;
 //This is a comment
 //Here's an example program that prints "hello" and then pulls an argument from user input
-//Loop function without parentheses means loop infinitely
+
 main(io,cc) { //cc are read only ints. The program will increment them however. This is simply a convienient way to keep track of the input and output streams.
 
 string z = "hello";
 push z -> o[c];
 string j;
-
-loop(50){pull i[c] -> j;
-
+//Loop function without parentheses means loop infinitely. X is the iteration(integer)
+loop(50,x){
+         pull i[c] -> j;
          push j -> o[c];
-
         }
 }
 
