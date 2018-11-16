@@ -5,7 +5,23 @@ main(io,cc) {
 
 string z = "hello";
 push z -> o;
+string j;
+
+pull i -> j;
+
+push j -> o;
 
 }
 
 quit;
+
+
+
+
+
+
+Output
+
+$hello
+$>good day
+$good day
