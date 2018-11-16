@@ -1,61 +1,92 @@
-//types: string, num, bool
+//types: string, num, bool          //what? no int/float. Genius is genius enough to take care of that for you with the utmost precision. ie there are no floats, it's simply integer arithemtic by moving decimals and appending decimal signs etc.
+//data object: object, lookup
+
+lookup // a lookup is a method that can be used to generalise strings inputted into methods such as +-=/ or more complicated things such as x -> get(), ie refering to void functions. 
+Operators{
+	"+" -> +; //char refers to a method
+}
 
 
-
-
-new struct tokens{
-	
+object  //an object behaves like a c++ class or struct. Genius is smart enough to generalise them.
+Tokens{	
 	string type;
 	string value;
-
 }
 
 
+void
+main(io,0,11)
+//io stands for an in and out stream in this program. The zero means we won't take any arguments argc argv style; and 1 would signify we are. The 33 mean we want 1 streams of in and 1 streams of out. <-This feature doesn't work yet for more than 1 and the function declaration can  be written w/o a 11 and it'll be implied.
+{
+	string z;
+	pull i -> z; //here we're pulling the i stream into z.
+	Tokens.array h; 
+	//here we initialize an array of tokens called h. The amount of space in the array needn't be allocated as Genius takes care of that for us. To figure out the number of items in the array use h.size().
+	num j = 0, len = 0, fstchr = -1;
+	loop(z.size(),x) //a loop function takes the amount of times it needs to iterate and something to keep track of the iterations. 
+	{
+		if 
+		{
+			fstchr == -1 && isNumber(z[x])
+		}		
+		then
+		{
+			fstchr = z[x];
+		}
 
-main(io,cc){
-	pull i -> z; //z is implied as string;
-	tokens.array h;
-num j = 0, len = 0, fstchr = -1;
-	loop(z.size(),x){
-		if {
-fstchr == -1 && isNumber(z[x])
-}
-then{
-fstchr = z[x];
-}
-
-
-
-
-
-if{
-isNumber(z[x]) != true
-} 
-then{
-	fstchr = -1;
+		if
+		{
+			isNumber(z[x]) != true
+		} 
+		then
+		{
+			fstchr = -1;
 			h[j].type = “num”;
-h[j].value = z[fstchr, len];
+			h[j].value = z[fstchr, len];
 			j++;
 			h[j].type = “op”;
 			h[j].value = z[x];
 			j++;
-			
-
-}
-		else{
+		}
+		else
+		{
 		len++;
 		}
 
+	}
+	math = new statement math[h.size]; //here we are initializing an mathematical statement with h.size "terms"(ie number, operator, number, etc)
+	loop(h.size(), w)
+	{
+		if
+		{
+			h[0].type != "num"
+		}
+		then
+		{
+			push "The first argument must be a number" -> o; //here we are pushing a string to the out stream. Push anything you want to the out stream and genius will read out its string values.
+			break;
+		}
+		else
+		{
+			if
+			{
+				h[w].type == "num";
+			}
+			then
+			{
+				math = math + toNumber(h[w].value); //we are taking the string of h[w]
+			} 
+			else
+			{
+				math = math + do Operators(h[w].value); //the do tells us that what is coming next is a method that needs to be put into statment. Not exactly necessary but it makes it easier
+			}
+		}
+	}
+	num ret = math;
+	push "Your answer is: " + ret -> o;
 }
-num ret;
-loop(h.size(), w){
-	if{h[w].type == “num”}then{ret = h[w] to_operator(h[w+1]) h[w+2] to_operator(h[w+3])}
 
-}
-
-}
-
-
+quit; //ends program. No return 0 nonsense. 
 
 
 
