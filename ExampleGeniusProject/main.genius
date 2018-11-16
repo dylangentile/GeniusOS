@@ -1,7 +1,33 @@
-char z;
+
+main(io,cc){
+pull i -> z; //z is implied as string;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+output
+$>123+546*4
+$2037
+
+
+
 //This is a comment
 //Here's an example program that prints "hello" and then pulls an argument from user input
-
+/*
 main(io,cc) { //cc are read only ints. The program will increment them however. This is simply a convienient way to keep track of the input and output streams.
 
 string z = "hello";
@@ -27,3 +53,5 @@ $>good day
 $good day
 $>this is functional
 $this is functional
+
+*/
