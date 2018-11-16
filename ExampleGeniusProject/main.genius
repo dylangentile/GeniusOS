@@ -18,10 +18,11 @@ quit;
 
 
 
-
+$genius main.genius -o=main
+$./main
 
 Output
-$./main
+
 $hello
 $>good day
 $good day
