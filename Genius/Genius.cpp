@@ -7,9 +7,9 @@
 
 int main(int argc, char const *argv[])
 {
-	std::ifstream ifs(argv[1]);
-  std::string content( (std::istreambuf_iterator<char>(ifs) ),
-                       (std::istreambuf_iterator<char>()    ) );
+
+	std::string thefile = argv[1];
+	Scanner *myscanner = new Scanner;
 
 	/*
     FILE *fp = fopen(argv[1], "r"); 
@@ -28,9 +28,9 @@ fclose(fp);
 	Character z;
 
 	std::cout << "\nHere are the characters returned by the scanner:\n" << "  line col  character\n";
-	scannerInit(content);
+	myscanner->initialize(thefile);
 
-	z = getChar();
+	z = myscanner->getChar();
 	while(true){
 		std::cout << str(z) << '\n';
 		//std::cout << z.lineIndex << "\t" << z.colIndex << "\t" << z.cargo << '\n';
@@ -38,7 +38,7 @@ fclose(fp);
 			break;
 		}
 
-		z = getChar();
+		z = myscanner->getChar();
 	}
 
 	std::cout << '\n';

@@ -1,21 +1,42 @@
 #include "scanner.h"
 #include "character.h"
 #include <string>
+#include <fstream>
 
 using namespace std;
 
-static string sourceText;
-static int lastIndex, sourceIndex, lineIndex, colIndex;
 
-void scannerInit(string sourceTextArg){
-	sourceText = sourceTextArg;
+
+
+
+Scanner::Scanner(){
+
+
+
+
+}
+Scanner::~Scanner(){
+
+
+
+
+}
+
+
+
+void Scanner::initialize(string sourceTextArg){
+	
+	std::ifstream ifs(sourceTextArg);
+  	std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+	sourceText = content;
 	lastIndex = sourceText.length() - 1;
 	sourceIndex = -1;
 	lineIndex = 0;
 	colIndex = -1;
 }
 
-Character getChar(){
+Character Scanner::getChar(){
 	sourceIndex += 1;
 	if(sourceIndex > 0){
 		if(sourceText[sourceIndex - 1] == '\n'){

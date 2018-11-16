@@ -1,6 +1,23 @@
 #pragma once
 #include "character.h"
 #include <string>
-void scannerInit(std::string sourceTextArg);
-Character getChar();
+
 //test
+class Scanner{
+
+
+public:
+	Scanner();
+	~Scanner();
+
+
+	void initialize(std::string file);
+	Character getChar();
+
+
+
+
+private:
+	std::string sourceText;
+ 	int lastIndex, sourceIndex, lineIndex, colIndex;
+};

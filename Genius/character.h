@@ -9,6 +9,8 @@ typedef struct {
 	int sourceIndex, lineIndex, colIndex;
 	std::string sourceText;
 } Character;
+
+
 std::string rjust(int x, std::string s);
 std::string ljust(int x, char filler, std::string s);
 

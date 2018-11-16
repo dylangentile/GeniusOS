@@ -22,11 +22,11 @@ public:
 	Keywords.push_back("exit");
 	
 
-	std::vector<char> OneCharSymbols{'=','(',')','<','>','/','*','+','-','!','&','.',';'};
+	vector<char> OneCharSymbols{'=','(',')','<','>','/','*','+','-','!','&','.',';'};
 
-	std::vector<char> TwoCharSymbols{'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
-	std::vector<char> StringStartChars{"'",'"'};
-	std::vector<char> WhitespaceChars{' ', '\t','\n'};
+	vector<char> TwoCharSymbols{'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
+	vector<char> StringStartChars{"'",'"'};
+	vector<char> WhitespaceChars{' ', '\t','\n'};
 
 	vector<string> TokenTypes;
 	TokenTypes.push_back("String");
