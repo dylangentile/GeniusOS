@@ -54,4 +54,7 @@ Token Lexer::lexerMain()
 
 }
 
-void Lexer::getCharPackage()
+void Lexer::getCharPackage(){
+
+	
+}

@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 #include "scanner.h"
 #include "character.h"
+#include "usefulFunctions.h"
 #include <string>
 
 using namespace std;
@@ -20,6 +21,7 @@ Tokenizer::~Tokenizer(){
 
 
 string Tokenizer::show(Token self, bool showLineNumbers, bool align){
+	UsefulFunc *myljust = new UsefulFunc;
 	int tokenTypeLen;
 	string s;
 	string space;
@@ -42,12 +44,16 @@ string Tokenizer::show(Token self, bool showLineNumbers, bool align){
 	}
 
 	if(self.type == self.cargo){
-		s = s + ljust(tokenTypeLen, '.', "Symbol") + ":" + " " + self.type;
+		s = s + myljust->ljust(tokenTypeLen, ".", "Symbol") + ":" + space + self.type;
 	} else if (self.type == "Whitspace"){
-		s = s + ljust(tokenTypeLen, '.', "Whitespace") + ":" + " " + self.cargo;
+		s = s + myljust->ljust(tokenTypeLen, ".", "Whitespace") + ":" + space + self.cargo;
 	} else {
-		s = s + ljust(tokenTypeLen, '.', self.type) + ":" + " " + self.cargo;
+		s = s + myljust->ljust(tokenTypeLen, ".", self.type) + ":" + space + self.cargo;
 	}
 	return s;
 
+}
+
+void Tokenizer::abort(Token x, string message){
+	lines = x.sourceText.
 }

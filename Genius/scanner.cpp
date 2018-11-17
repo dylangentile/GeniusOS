@@ -2,6 +2,7 @@
 #include "character.h"
 #include <string>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -29,50 +30,53 @@ void Scanner::initialize(string sourceTextArg){
 	std::ifstream ifs(sourceTextArg);
   	std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
-	sourceText = content;
-	lastIndex = sourceText.length() - 1;
-	sourceIndex = -1;
-	lineIndex = 0;
-	colIndex = -1;
+	msourceText = content;
+	mlastIndex = msourceText.length() - 1;
+	msourceIndex = -1;
+	mlineIndex = 0;
+	mcolIndex = -1;
 }
 
 Character Scanner::getChar(){
-	sourceIndex += 1;
-	if(sourceIndex > 0){
-		if(sourceText[sourceIndex - 1] == '\n'){
+	msourceIndex += 1;
+	if(msourceIndex > 0){
+		if(msourceText[msourceIndex - 1] == '\n'){
 			//previous character was a newline so we start a new line and increment;
-			lineIndex += 1;
-			colIndex = -1;
+			mlineIndex += 1;
+			mcolIndex = -1;
 		}
 	}
-	colIndex += 1;
+	mcolIndex += 1;
 	Character w;
-	if(sourceIndex > lastIndex){
+	if(msourceIndex > mlastIndex){
 		w.cargo = "\0";
-		w.lineIndex = lineIndex;
-		w.colIndex = colIndex;
-		w.sourceIndex = sourceIndex;
-		w.sourceText = sourceText;
+		w.lineIndex = mlineIndex;
+		w.colIndex = mcolIndex;
+		w.sourceIndex = msourceIndex;
+		w.sourceText = msourceText;
 	}
 	else
 	{
-		w.cargo = sourceText[sourceIndex];
-		w.lineIndex = lineIndex;
-		w.colIndex = colIndex;
-		w.sourceIndex = sourceIndex;
-		w.sourceText = sourceText;
+		w.cargo = msourceText[msourceIndex];
+		w.lineIndex = mlineIndex;
+		w.colIndex = mcolIndex;
+		w.sourceIndex = msourceIndex;
+		w.sourceText = msourceText;
 	}
 
 	return w;
 }
 
 string Scanner::lookahead(int offset){
-	index = sourceIndex + offset;
-
-	if(index > lastIndex){
+	int index = msourceIndex + offset;
+	stringstream ss;
+	string target;
+	if(index > mlastIndex){
 		return "\0";
 	} else{
-		return sourceText[index];
+		ss << msourceText[index];
+		ss >> target;
+		return target;
 	}
 }
 

@@ -29,7 +29,7 @@ LIBS =
 #-lmylib -lm
 
 # define the C source files
-SRCS = Genius.cpp character.cpp scanner.cpp token.cpp
+SRCS = Genius.cpp character.cpp scanner.cpp  usefulFunctions.cpp
 
 # define the C object files 
 #
