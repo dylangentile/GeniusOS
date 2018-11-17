@@ -8,10 +8,8 @@ public:
 	Lexer();
 	~Lexer();
 
-	void lexerInit(std::string srcTxt);
+	void lexerInit(std::string srcTxtArg);
 	Token lexerMain();
 private:
 	std::string c1, c2;
-	Character k;
-
 };

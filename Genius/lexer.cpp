@@ -14,11 +14,9 @@ Lexer::~Lexer(){
 
 }
 
-void Lexer::lexerInit(string srcTxt){
-
-	initialize(srcTxt);
-	static int g = 5;
-	static Character x1 = getChar();
+void Lexer::lexerInit(string srcTxtArg){
+	static Scanner *myscanner = new Scanner;
+	myscanner->initialize(srcTxt);
 }
 
 Token Lexer::lexerMain()
@@ -28,7 +26,7 @@ Token Lexer::lexerMain()
 		x1 = getChar();
 	}
 	g = 7;
-	Character x2 = getChar();
+	Character x2 = getChar();//fix this!!!!
 	x2.cargo = x1.cargo + x2.cargo;
 	if(find(begin(WhitespaceChars), end(WhitespaceChars), x1.cargo) || x2.cargo == "/*")
 	{
@@ -55,6 +53,8 @@ Token Lexer::lexerMain()
 }
 
 void Lexer::getCharPackage(){
-
-	
+	Character readChar;
+	readChar = myscanner->getChar();
+	c1 = readChar.cargo;
+	c2 = c1 + myscanner->lookahead(1);
 }
