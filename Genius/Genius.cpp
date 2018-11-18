@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "scanner.h"
-#include "character.h"
+#include "lexer.h"
 #define BUFSIZE 100000
 
 int main(int argc, char const *argv[])
 {
 
 	std::string thefile = argv[1];
-	Scanner *myscanner = new Scanner;
+	//Scanner *myscanner = new Scanner;
 
 	/*
     FILE *fp = fopen(argv[1], "r"); 
@@ -25,6 +24,7 @@ int main(int argc, char const *argv[])
 
 fclose(fp);
 	*/
+/*
 	Character z;
 
 	std::cout << "\nHere are the characters returned by the scanner:\n" << "  line col  character\n";
@@ -40,6 +40,21 @@ fclose(fp);
 
 		z = myscanner->getChar();
 	}
+*/
+	Token tok;
+
+	Lexer *mylexer = new Lexer;
+	mylexer->lexerInit(thefile);
+
+	while(true){
+		tok = mylexer->lexerMain();
+		std::cout << mylexer->tokenWrapper(tok, false, true);
+		if(tok.type == kToken_EOF){
+			break;
+		}
+	}
+
+
 
 	std::cout << '\n';
 	return 0;

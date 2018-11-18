@@ -13,7 +13,7 @@ public:
 	Keywords.push_back("if");
 	Keywords.push_back("then");
 	Keywords.push_back("else");
-	Keywords.push_back("elseif");
+	//Keywords.push_back("elseif");
 	Keywords.push_back("while");
 	Keywords.push_back("loop");
 	Keywords.push_back("endloop");
@@ -22,17 +22,18 @@ public:
 	Keywords.push_back("exit");
 	
 
-	vector<char> OneCharSymbols{'=','(',')','<','>','/','*','+','-','!','&','.',';'};
+	vector<string> OneCharSymbols{'=','(',')','<','>','/','*','+','-','!','&','.',';'};
 
-	vector<char> TwoCharSymbols{'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
-	vector<char> StringStartChars{"'",'"'};
-	vector<char> WhitespaceChars{' ', '\t','\n'};
+	vector<string> TwoCharSymbols{'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
+	vector<string> StringStartChars{"'",'"'};
+	vector<string> WhitespaceChars{' ', '\t','\n'};
 
-	vector<string> TokenTypes;
+	/*vector<string> TokenTypes;
 	TokenTypes.push_back("String");
 	TokenTypes.push_back("Identifier");
 	TokenTypes.push_back("Number");
 	TokenTypes.push_back("Whitespace");
 	TokenTypes.push_back("Comment");
 	TokenTypes.push_back("Eof");
+*/
 };

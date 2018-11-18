@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-using namespace std;
 /*
 class Splitstring : public string {
     vector<string> flds;
@@ -13,7 +12,7 @@ class UsefulFunc{
 public:
 	UsefulFunc();
 	~UsefulFunc();
-	string rjust(int x, string s, string filler = " ");
-	string ljust(int x, string s, string filler = " ");
+	std::string rjust(int x, std::string s, std::string filler = " ");
+	std::string ljust(int x, std::string s, std::string filler = " ");
 };
 

@@ -22,9 +22,6 @@ Scanner::~Scanner(){
 
 
 }
-
-
-
 void Scanner::initialize(string sourceTextArg){
 	
 	std::ifstream ifs(sourceTextArg);

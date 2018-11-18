@@ -6,7 +6,7 @@
 #
 
 # define the C compiler to use
-CC = g++
+CC = g++8
 
 # define any compile-time flags
 CFLAGS = -Wall -g
@@ -29,7 +29,7 @@ LIBS =
 #-lmylib -lm
 
 # define the C source files
-SRCS = Genius.cpp character.cpp scanner.cpp  usefulFunctions.cpp
+SRCS = Genius.cpp character.cpp scanner.cpp  usefulFunctions.cpp lexer.cpp 
 
 # define the C object files 
 #

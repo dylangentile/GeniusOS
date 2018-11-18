@@ -1,6 +1,5 @@
 #include "character.h"
 #include "usefulFunctions.h"
-#include <string>
 using namespace std;
 //#define ENDMARK "\0"
 

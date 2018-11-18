@@ -1,12 +1,5 @@
 #pragma once
 #include <string>
-typedef struct{
-	std::string cargo, sourceText;
-	int lineIndex, colIndex; 
-	std::string type;
-} Token;
-
-
 
 typedef enum TokenID
 {
@@ -56,6 +49,12 @@ typedef enum TokenID
 	kToken_EOF
 	
 };
+
+typedef struct{
+	std::string cargo, sourceText;
+	int lineIndex, colIndex; 
+	TokenID type;
+} Token;
 
 class Tokenizer{
 
