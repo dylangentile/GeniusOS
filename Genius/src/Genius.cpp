@@ -41,14 +41,24 @@ fclose(fp);
 		z = myscanner->getChar();
 	}
 */
-	Token tok;
+	Token tok, initializer;
 
 	Lexer *mylexer = new Lexer;
-	mylexer->lexerInit(thefile);
+	initializer = mylexer->lexerhandler(thefile);
 
 	while(true){
-		tok = mylexer->lexerMain();
-		std::cout << mylexer->tokenWrapper(tok, false, true);
+		tok = mylexer->lexerhandler();
+		if(tok.type == kToken_EOF){
+			std::cout << "EOF\n";
+		}else if(tok.type != kToken_WHITESPACE && tok.type != kToken_TAB && tok.type != kToken_NEWLINE && tok.type != kToken_COMMENT && tok.type != kToken_UNKNOWN){
+		std::cout << mylexer->tokenWrapper(tok, true, true) << "\n";
+        }else if (tok.type == kToken_UNKNOWN){
+            std::cout << "UNKNOWN:UNKNOWN" << "\n";
+        } else{
+        std::string output = "WHITESPACE";
+        std::cout << "        WHITESPACE..:" << output <<"\n";
+        }
+            //std::cout << "hello:" << tok.cargo << '\n';
 		if(tok.type == kToken_EOF){
 			break;
 		}
@@ -57,5 +67,6 @@ fclose(fp);
 
 
 	std::cout << '\n';
+	delete mylexer;
 	return 0;
 }

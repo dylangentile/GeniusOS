@@ -1,15 +1,5 @@
-/* this is a comment
+754678+89807;
+3456789*98765;
 
-more comment
-
-*/
-
-
-
-num j = 3;
-num z = 4;
-string f = "hello";
-
-5-5 == 9-9;
-
-if j != 4;
+num z = 5;
+z == 2;

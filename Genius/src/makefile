@@ -6,14 +6,14 @@
 #
 
 # define the C compiler to use
-CC = g++8
+CC = g++-mp-8
 
 # define any compile-time flags
 CFLAGS = -Wall -g
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I../Genius  
+INCLUDES = -I../include
 #-I../include
 
 # define library paths in addition to /usr/lib
