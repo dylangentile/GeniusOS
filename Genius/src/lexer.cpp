@@ -240,7 +240,8 @@ bool Lexer::isNumberStart(string num, string &finishedCargo, int &loops){
         {
             if(myscanner->lookahead(1) <= "9" && myscanner->lookahead(1) >= "0")
             {
-                
+                loops = 1;
+                finishedCargo = num;
                 while(true){
                     if(myscanner->lookahead(loops) == " " || isOneCharSymbol(myscanner->lookahead(loops)) || isTwoCharOperator(myscanner->lookahead(loops))){
                         break;
@@ -248,7 +249,6 @@ bool Lexer::isNumberStart(string num, string &finishedCargo, int &loops){
                     finishedCargo += myscanner->lookahead(loops);
                     loops++;
                 }
-                loops--;
                 return true;
             }
         }
@@ -260,7 +260,6 @@ bool Lexer::isNumberStart(string num, string &finishedCargo, int &loops){
             finishedCargo += myscanner->lookahead(loops);
             loops++;
         }
-        loops--;
         return true;
     
     }
@@ -432,7 +431,6 @@ Token Lexer::lexerMain()
         for(int x = 0; x < loopage; x++){
             getCharPackage();
         }
-		getCharPackage();
 		return retPackage;
 	}
 	if(c1 == "\""){
