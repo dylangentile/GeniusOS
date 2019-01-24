@@ -5,8 +5,8 @@
 # 'make clean'  removes all .o and executable files
 #
 
-# define the C compiler to use
-CC = g++-mp-8
+# This is my local compiler just switch it to g++ for your machine.
+CC = g++
 
 # define any compile-time flags
 CFLAGS = -Wall -g
