@@ -5,7 +5,8 @@
 # 'make clean'  removes all .o and executable files
 #
 
-# define the C compiler to use
+
+# This is my local compiler just switch it to g++ for your machine.
 CC = g++
 
 # define any compile-time flags
@@ -76,6 +77,7 @@ $(MAIN): $(OBJS)
 
 clean:
 		$(RM) *.o *~ $(MAIN)
+		$(RM) -r *.dSYM
 
 depend: $(SRCS)
 		makedepend $(INCLUDES) $^

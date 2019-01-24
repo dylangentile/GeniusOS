@@ -1,18 +1,16 @@
+#pragma once
+
 #include <string>
-#include <vector>
-/*
-class Splitstring : public string {
-    vector<string> flds;
-public:
-    Splitstring(char *s) : string(s) { };
-    vector<string>& split(char delim, int rep=0);
-};
-*/
+#include <iostream>
+#include <fstream>
+
 class UsefulFunc{
 public:
 	UsefulFunc();
 	~UsefulFunc();
 	std::string rjust(int x, std::string s, std::string filler = " ");
 	std::string ljust(int x, std::string s, std::string filler = " ");
+	std::string recursiveOut(int x. std::string s);
+	bool writeOut(std::string outputText, std::string outputTo), bool makeCheck = true;
 };
 

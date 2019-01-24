@@ -2,12 +2,23 @@
 #include <iostream>
 #include <fstream>
 #include "lexer.h"
+#include "parser.h"
+#include "arginterpreter.h"
+#include "usefulFunctions.h"
 #define BUFSIZE 100000
-
+//sytax == input outputdir --verbose/-v ||/&& --quick/-q
 int main(int argc, char const *argv[])
 {
-
+	std::string temp;
 	std::string thefile = argv[1];
+	if (argc > 1 ){
+		if(temp[0] != "-"){
+		std::string theoutput = argv[2];
+		}
+	}
+	else{
+	std::string theoutput = "a.txt";
+	}
 	//Scanner *myscanner = new Scanner;
 
 	/*
@@ -41,6 +52,7 @@ fclose(fp);
 		z = myscanner->getChar();
 	}
 */
+/*
 	Token tok, initializer;
 
 	Lexer *mylexer = new Lexer;
@@ -65,8 +77,28 @@ fclose(fp);
 	}
 
 
+*/
+	ArgReader *myargreader = new ArgReader;
+	myargreader->readArgs(arg, argv);
+	
+
+	Parser myparser = new Parser;
+	std::string ast;
+	UsefulFunc *myrecursor = new UsefulFunc;
+	ast = myparser->parse(thefile, myargreader->verbosity);
+	std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
+	bool test = recursiveOut->writeOut(ast, theoutput);
+	if(!test){
+		std::cout << "\n\nSomething prevented my from outputting your ast. I did all that work, parsing, tokenizing, scanning, etc. And this is the thanks your system gives me! Damn you!\n\n";
+	} else{
+		std::cout << ast;
+	}
+
+
 
 	std::cout << '\n';
-	delete mylexer;
+	delete myparser;
+	delete myargreader;
+	delete myrecursor;
 	return 0;
 }

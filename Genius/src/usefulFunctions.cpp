@@ -1,5 +1,3 @@
-#include <vector>
-#include <string>
 #include "usefulFunctions.h"
 using namespace std;
 
@@ -27,3 +25,31 @@ string UsefulFunc::ljust(int x, string s, string filler){
     }
     return s;
 }
+string recursiveOut(int x, string s){
+    string retValue = s;
+    for (int i = 1; i < x; i++){
+        retValue += s;
+    }
+    return retValue;
+}
+
+bool writeOut(std::string outputText, std::string outputTo, bool makeCheck){
+    ofstream outfile;
+    outfile.open(outputTo);
+    outfile << outputText;
+    outfile.close();
+    if(makeCheck == true){
+        string check;
+        ifstream fileCheck;
+        fileCheck.open(outputTo);
+        fileCheck >> check;
+        fileCheck.close();
+
+        if(check != outputText){
+            return false;
+        }
+    }
+
+    return true;
+}
+
