@@ -6,7 +6,7 @@
 #
 
 # define the C compiler to use
-CC = g++-mp-8
+CC = g++
 
 # define any compile-time flags
 CFLAGS = -Wall -g
