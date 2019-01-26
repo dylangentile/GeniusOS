@@ -7,9 +7,8 @@
 
 # define the C compiler to use
 CC = g++-mp-8
-
 # define any compile-time flags
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -v
 
 # define any directories containing header files other than /usr/include
 #

@@ -53,6 +53,7 @@ typedef enum
 	kToken_WHITESPACE, 
 	kToken_NUMBER, 
 	kToken_COMMENT,
+	kToken_EMPTY,
 	kToken_EOF
 	
 } TokenID;

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "lexer.h"
 #include "parser.h"
 #include "arginterpreter.h"
 #include "usefulFunctions.h"
@@ -11,14 +10,31 @@ int main(int argc, char const *argv[])
 {
 	std::string temp;
 	std::string thefile = argv[1];
-	if (argc > 1 ){
+	std::string theoutput = "a.txt";
+	/*if (argc > 1 ){
 		if(temp[0] != "-"){
-		std::string theoutput = argv[2];
+		theoutput = argv[2];
 		}
 	}
 	else{
-	std::string theoutput = "a.txt";
+	theoutput = "a.txt";
 	}
+	*/
+
+
+
+
+
+
+
+
+
+
+
+// OLD CODE/HANDLERs
+
+
+
 	//Scanner *myscanner = new Scanner;
 
 	/*
@@ -78,17 +94,23 @@ fclose(fp);
 
 
 */
-	ArgReader *myargreader = new ArgReader;
-	myargreader->readArgs(arg, argv);
-	
 
-	Parser myparser = new Parser;
-	std::string ast;
-	UsefulFunc *myrecursor = new UsefulFunc;
-	ast = myparser->parse(thefile, myargreader->verbosity);
-	std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
-	bool test = recursiveOut->writeOut(ast, theoutput);
-	if(!test){
+
+	//END OLD CODE/HANDLERS
+
+
+	ArgReader *myargreader = new ArgReader;
+	//myargreader->readArgs(argc, argv);
+	
+	bool test = false;
+
+//	Parser *myparser = new Parser;
+	std::string ast = "";
+//	UsefulFunc *myrecursor = new UsefulFunc;
+//	ast = myparser->parse(thefile, true);
+	//std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
+	//bool test = myrecursor->writeOut(ast, theoutput);
+	if(test){
 		std::cout << "\n\nSomething prevented my from outputting your ast. I did all that work, parsing, tokenizing, scanning, etc. And this is the thanks your system gives me! Damn you!\n\n";
 	} else{
 		std::cout << ast;
@@ -97,8 +119,8 @@ fclose(fp);
 
 
 	std::cout << '\n';
-	delete myparser;
-	delete myargreader;
-	delete myrecursor;
+	//delete myparser;
+	//delete myargreader;
+	//delete myrecursor;
 	return 0;
 }

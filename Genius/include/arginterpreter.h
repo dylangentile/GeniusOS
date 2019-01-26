@@ -1,6 +1,7 @@
 #pragma once
 
-class ArgReader{
+class ArgReader
+{
 public:
 	ArgReader();
 	~ArgReader();
@@ -10,4 +11,4 @@ public:
 	bool quickly;
 
 
-}
+};

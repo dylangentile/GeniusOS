@@ -14,6 +14,7 @@ ArgReader::~ArgReader(){
 
 }
 
+void
 ArgReader::readArgs(int argcNum, char const *args[]){
 	string tempArg;
 	int g, i = 3;
@@ -25,7 +26,7 @@ ArgReader::readArgs(int argcNum, char const *args[]){
 	{
 		tempArg = args[i];
 		g = 0;
-		if(tempArg == "--verbose" || tempArg = "-v"){
+		if(tempArg == "--verbose" || tempArg == "-v"){
 			verbosity = true;
 			g++;
 		}
