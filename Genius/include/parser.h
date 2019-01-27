@@ -1,23 +1,8 @@
 #pragma once
 
-//stl includes, etc.
-#include <string>
-#include <vector> 
-#include <set>
-
-//local includes
+#include "usefulFunctions.h"
 #include "lexer.h"
-/*
-typedef struct{
-	Token token;
-	int level;
-	std::set<std::string> children;
-	void add(Node self);
-	void addNode(Node self);
-	std::string toString(Node self);
 
-} Node;
-*/
 
 class Parser{
 public:

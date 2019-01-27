@@ -19,7 +19,9 @@ typedef enum
 	kToken_ENDLOOP, 
 	kToken_PRINT, 
 	kToken_RETURN, 
-	kToken_EXIT, 
+	kToken_QUIT,
+	kToken_OPEN,
+	kToken_CLOSE, 
 	kToken_EQUALS, 
 	kToken_LPAREN, 
 	kToken_RPAREN, 
@@ -74,6 +76,7 @@ public:
 	
 	Token lexerhandler(std::string doInit = "NULL");
 	std::string tokenWrapper(Token self, bool showLineNumbers, bool align);
+	bool doabort = false;
 
 private:
 	void lexerInit(std::string srcTxtArg);
@@ -93,7 +96,6 @@ private:
 private:
 	std::string c1, c2;
 	UsefulFunc *myljust;
-
 	std::string tempSourceText;
 	int tempLineIndex, tempcolIndex;
 std::string srcTxtSv;

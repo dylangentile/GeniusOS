@@ -24,8 +24,10 @@ Lexer::Lexer(){
 	mKeywordMap.insert(make_pair("endloop",kToken_ENDLOOP));
 	mKeywordMap.insert(make_pair("print",kToken_PRINT));
 	mKeywordMap.insert(make_pair("return",kToken_RETURN));
-	mKeywordMap.insert(make_pair("exit",kToken_EXIT));
+	mKeywordMap.insert(make_pair("quit",kToken_QUIT));
 
+	mOperatorMap.insert(make_pair("{", kToken_OPEN));
+	mOperatorMap.insert(make_pair("}", kToken_CLOSE));
 	mOperatorMap.insert(make_pair("=",kToken_EQUALS));
 	mOperatorMap.insert(make_pair("(",kToken_LPAREN));
 	mOperatorMap.insert(make_pair(")",kToken_RPAREN));
@@ -174,6 +176,8 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 		s = s + myljust->ljust(tokenTypeLen, "Operator", ".") + ":" + space + self.cargo;
 	} else if (self.type == kToken_WHITESPACE){
 		s = s + myljust->ljust(tokenTypeLen, "WHITESPACE", ".") + ":" + space + self.cargo;
+	} else if(self.type == kToken_NUMBER){
+		s = s + myljust->ljust(tokenTypeLen, "Integer", ".") + ":" + space + self.cargo;
 	} else {
 		s = s + myljust->ljust(tokenTypeLen + 2, "OTHER", ".") + ":" + space + self.cargo;
 	}
@@ -183,7 +187,10 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 
 
 void Lexer::abort(Token x, string msg){
-	cout << "You made a boo boo. Here's descriptive error description: " << msg;
+	cout << "You made a boo boo. Here's descriptive error description: \n\t"<< x.lineIndex/5120 <<":" <<x.colIndex << "=";
+	cout <<  "[ " << msg << "]\n";
+
+	doabort = true;
 }
 
 void Lexer::lexerInit(string srcTxtArg)
@@ -464,6 +471,7 @@ Token Lexer::lexerMain()
 	}
 
 	abort(retPackage, "I've found a character or symbol that's unrecognizeable: \"" + c1 + "\"");
+	getCharPackage();
 	return retPackage;
 }
 

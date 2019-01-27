@@ -8,7 +8,7 @@
 # define the C compiler to use
 CC = g++-mp-8
 # define any compile-time flags
-CFLAGS = -Wall -g -v
+CFLAGS = -Wall -g
 
 # define any directories containing header files other than /usr/include
 #
@@ -19,7 +19,7 @@ INCLUDES = -I../include
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
 LFLAGS = 
-#-L/home/newhall/lib  -L../lib
+#-L../lib
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
@@ -28,7 +28,7 @@ LIBS =
 #-lmylib -lm
 
 # define the C source files
-SRCS = Genius.cpp character.cpp scanner.cpp  usefulFunctions.cpp lexer.cpp 
+SRCS = Genius.cpp arginterpreter.cpp parser.cpp lexer.cpp scanner.cpp character.cpp usefulFunctions.cpp
 
 # define the C object files 
 #

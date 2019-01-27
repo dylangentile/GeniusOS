@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include "lexer.h"
 #include "parser.h"
 #include "arginterpreter.h"
 #include "usefulFunctions.h"
@@ -31,43 +32,8 @@ int main(int argc, char const *argv[])
 
 
 
-// OLD CODE/HANDLERs
+// OLD Lexer Handler.
 
-
-
-	//Scanner *myscanner = new Scanner;
-
-	/*
-    FILE *fp = fopen(argv[1], "r"); 
-
-    char buff[BUFSIZE]; 
-    while(fgets(buff, BUFSIZE - 1, fp) != NULL) 
-    {
-       
-
-        printf ("%s\n", buff); 
-
-    }
-
-fclose(fp);
-	*/
-/*
-	Character z;
-
-	std::cout << "\nHere are the characters returned by the scanner:\n" << "  line col  character\n";
-	myscanner->initialize(thefile);
-
-	z = myscanner->getChar();
-	while(true){
-		std::cout << str(z) << '\n';
-		//std::cout << z.lineIndex << "\t" << z.colIndex << "\t" << z.cargo << '\n';
-		if(z.cargo == "\0"){
-			break;
-		}
-
-		z = myscanner->getChar();
-	}
-*/
 /*
 	Token tok, initializer;
 
@@ -92,31 +58,33 @@ fclose(fp);
 		}
 	}
 
-
 */
+
 
 
 	//END OLD CODE/HANDLERS
 
-
 	ArgReader *myargreader = new ArgReader;
-	//myargreader->readArgs(argc, argv);
+	myargreader->readArgs(argc, argv);
 	
-	bool test = false;
+	Parser *myparser = new Parser;
 
-//	Parser *myparser = new Parser;
-	std::string ast = "";
-//	UsefulFunc *myrecursor = new UsefulFunc;
-//	ast = myparser->parse(thefile, true);
+	UsefulFunc *myrecursor = new UsefulFunc;
+	std::string ast = myparser->parse(thefile, true);
+	
+
+	std::cout << ast;
 	//std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
-	//bool test = myrecursor->writeOut(ast, theoutput);
+	/*
+	bool test = true; //= myrecursor->writeOut(ast, theoutput, true);
+	
 	if(test){
 		std::cout << "\n\nSomething prevented my from outputting your ast. I did all that work, parsing, tokenizing, scanning, etc. And this is the thanks your system gives me! Damn you!\n\n";
 	} else{
 		std::cout << ast;
 	}
 
-
+	*/
 
 	std::cout << '\n';
 	//delete myparser;

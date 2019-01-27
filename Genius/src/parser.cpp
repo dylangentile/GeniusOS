@@ -1,33 +1,5 @@
 #include "parser.h"
-
-//using namespace std;
-/*
-void
-Node::add(Node self, Token addToNode){
-	Node *mynode = new Node;
-	mynode.token = addToNode;
-	mynode.level = 0;
-	self.addNode(self, mynode);
-}
-void
-Node::addNode(Node self, Node oldnode){
-	oldnode.level = self.level + 1;
-	self.children.insert(oldnode);
-}
-string Node::toString(Node self){
-	string s;
-	s = "    " + to_string(self.level);
-	if(self.token.type == kToken_EMPTY){
-		s += "ROOT\n";
-	}
-	else
-	{
-		s += self.token.cargo + "\n";
-	}
-
-}
-*/
-
+using namespace std;
 
 Parser::Parser(){
 
@@ -48,21 +20,40 @@ Parser::~Parser(){
 
 Token Parser::fetchToken(){
 	if(verbose){
-		//if(theToken.cargo != "GENIUSCOMPILERIMEMPTY"){
-		//	cout << " " + "   (" + mylexer->show(theToken);
-		//}
 	}
 		return mylexer->lexerhandler();
 }
 
 
-std::string Parser::parse(std::string srcFile, bool verbosity){
-	verbose = v;
+string Parser::parse(std::string srcFile, bool verbosity){
+	verbose = verbosity;
+	Token tok, initializer;
 
+	mylexer = new Lexer;
+	initializer = mylexer->lexerhandler(srcFile);
 
-	theToken = mylexer->lexerhandler(srcFile); 
+	while(true){
+		tok = mylexer->lexerhandler();
+		if(tok.type == kToken_EOF){
+			std::cout << "EOF\n";
+		}else if(tok.type != kToken_WHITESPACE && tok.type != kToken_TAB && tok.type != kToken_NEWLINE && tok.type != kToken_COMMENT && tok.type != kToken_UNKNOWN){
+		std::cout << mylexer->tokenWrapper(tok, true, true) << "\n";
+        }else if (tok.type == kToken_UNKNOWN){
+            std::cout << "UNKNOWN:UNKNOWN" << "\n";
+        } else{
+        std::string output = "WHITESPACE";
+        std::cout << "        WHITESPACE..:" << output <<"\n";
+        }
+		if(tok.type == kToken_EOF){
+			break;
+		}
+		if(mylexer->doabort == true){
+			retMsg = "Genius Compiler Version: " + retVersion() + " failed to compile " + srcFile + "\n1\n"; 
+			break;
+		}
+	}
 
-
+	return retMsg;
 
 }
 

@@ -1,17 +1,16 @@
 //types: string, num, bool          //what? no int/float. Genius is genius enough to take care of that for you with the utmost precision. ie there are no floats, it's simply integer arithemtic by moving decimals and appending decimal signs etc.
 //data object: object, lookup
 
-lookup // a lookup is a method that can be used to generalise strings inputted into methods such as +-=/ or more complicated things such as x -> get(), ie refering to void functions. 
+lookup // a lookup is a method that can be used to generalise strings inputted into methods such as +-=/ or more complicated things such as x -> get(), ie refering to void functions. The concepts of methods will be enumerated upon later
 Operators{
 	"+" -> +; //char refers to a method
 }
 
 
-object  //an object behaves like a c++ class or struct. Genius is smart enough to generalise them.
-Tokens{	
+object{  //an object behaves like a c++ class or struct. Genius is smart enough to generalise them.	
 	string type;
 	string value;
-}
+}Token;
 
 
 void
