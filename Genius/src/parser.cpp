@@ -21,9 +21,15 @@ Parser::~Parser(){
 
 void
 Parser::throwError(int errorId, string msg){
-	//0
+	//0 improper casting
+	//1 improper Syntax
+	//2 wrong value for type 
 	switch(errorId){
 		case 0: retMsg = "General Error\n\tCode:'0'\n\t\t" + msg + "\n";
+			break;
+		case 1: retMsg = "General Error\n\tCode:'1'\n\t\t" + msg + "\n";
+			break;
+		case 2: retMsg = "General Error\n\tCode:'2'\n\t\t" + msg + "\n";
 			break;
 		case 666: retMsg = "Satanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
@@ -53,14 +59,24 @@ Parser::statement(){
 			{
 				if(theTokenArray.at(3).cat == kCat_VALUE)
 				{
-					if(4 == stLen){
-						//buildNodeTree();
+					if(theTokenArray.at(3).type == theTokenArray.at(0).type){
+						if(4 == stLen){
+							//create initialized variable
+						}
+					} 
+					else
+					{
+						throwError(2, ("The value: " + theTokenArray.at(3).cargo + " is an invalid value for " + theTokenArray.at(1).cargo + " of type " + theTokenArray.at(0).cargo));
 					}
+				} 
+				else
+				{
+					throwError(1, ("Identifier: " + theTokenArray.at(1).cargo + " was a assigned a non-value: " + theTokenArray.at(3).cargo));
 				}
 			}
 			else if (theTokenArray.at(2).type == kToken_SEMICOLON)
 			{
-
+				//create uninitialized variable;
 			}
 			else
 			{
@@ -73,7 +89,8 @@ Parser::statement(){
 			throwError(0, ("The type: \033[33;1m" + theTokenArray.at(0).cargo + "\033[0m at line:\033[31;1m" + to_string(theTokenArray.at(0).lineIndex) + "\033[0m in file \033[1m" + theTokenArray.at(0).sourceName +  "\033[0m is followed by a non identifier: \033[33;1m" + theTokenArray.at(1).cargo + "\033[0m"));
 			return false;
 		}
-	} 
+	}
+	return true; 
 
 }
 

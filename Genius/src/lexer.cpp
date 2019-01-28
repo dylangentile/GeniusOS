@@ -22,7 +22,7 @@ Lexer::Lexer(){
 	mKeywordMap.insert(make_pair("while",kToken_WHILE));
 	mKeywordMap.insert(make_pair("loop",kToken_LOOP));
 	mKeywordMap.insert(make_pair("endloop",kToken_ENDLOOP));
-	mKeywordMap.insert(make_pair("print",kToken_PRINT));
+	mKeywordMap.insert(make_pair("push",kToken_PUSH));
 	mKeywordMap.insert(make_pair("return",kToken_RETURN));
 	mKeywordMap.insert(make_pair("quit",kToken_QUIT));
 
@@ -55,39 +55,9 @@ Lexer::Lexer(){
 	mTypeMap.insert(make_pair("string",kToken_STRING));
 	mTypeMap.insert(make_pair("num",kToken_NUMBER));
 	mTypeMap.insert(make_pair("bool",kToken_BOOL));
-
 	
-	
-	
-
-
-
-
-myscanner = new Scanner;
-myljust = new UsefulFunc;
-
-	/*	["if"] = kToken_IF;
-	mKeywordMap["then"] = kToken_THEN;
-	mKeywordMap["else"] = kToken_ELSE;
-	mKeywordMap["while"] = kToken_WHILE;
-	mKeywordMap["loop"] = kToken_LOOP;
-	mKeywordMap["endloop"] = kToken_ENDLOOP;
-	mKeywordMap["print"] = kToken_PRINT;
-	mKeywordMap["return"] = kToken_RETURN;
-	mKeywordMap["exit"] = kToken_EXIT;
-	*/
-
-
-
-	//vector<string> OneCharSymbols{'=','(',')','<','>','/','*','+','-','!','&','.',';'};
-
-	//vector<string> TwoCharSymbols{'==','<=','>=','<>','!=','++','**','--','+=','-=','||'};
-	//vector<string> StringStartChars{"'",'"'};
-	//vector<string> WhitespaceChars{' ', '\t','\n'};
-
-
-
-
+	myscanner = new Scanner;
+	myljust = new UsefulFunc;
 }
 Lexer::~Lexer()
 {
@@ -104,14 +74,17 @@ Lexer::typeLookAhead(TokenID y, int &o_look){
 	if (y == kToken_NUMBER){
 		temp = c2 + myscanner->lookahead(2);
 		if(temp == "num"){
+			cout << "number!";
 			o_look = 1;
 			return kToken_NUMBER;
 		}
 
 	}
 	if (y == kToken_STRING){
+		cout << "testFor Sttinh";
 		temp = c2 + myscanner->lookahead(5);
 		if(temp == "string"){
+			cout << "string!";
 			o_look = 4;
 			return kToken_STRING;
 		}
@@ -119,6 +92,7 @@ Lexer::typeLookAhead(TokenID y, int &o_look){
 	if (y == kToken_BOOL){
 		temp = c2 + myscanner->lookahead(3);
 		if(temp == "bool"){
+			cout << "bool!";
 			o_look = 2;
 			return kToken_BOOL;
 		}
@@ -171,15 +145,42 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 	{
 		s = "";
 	}
+		
 
-	if((isTwoCharOperator(self.cargo) == self.type) || (isOneCharSymbol(self.cargo) == self.type)){
-		s = s + myljust->ljust(tokenTypeLen, "Operator", ".") + ":" + space + self.cargo;
-	} else if (self.type == kToken_WHITESPACE){
+	if(self.type == kToken_WHITESPACE){
 		s = s + myljust->ljust(tokenTypeLen, "WHITESPACE", ".") + ":" + space + self.cargo;
-	} else if(self.type == kToken_NUMBER){
-		s = s + myljust->ljust(tokenTypeLen, "Integer", ".") + ":" + space + self.cargo;
 	} else if(self.type == kToken_COMMENT){
 		s = s + myljust->ljust(tokenTypeLen, "Comment", ".") + ":" + space + self.cargo;
+	} else if (self.cat == kCat_OPERATOR){
+		s = s + myljust->ljust(tokenTypeLen, "Operator", ".") + ":" + space + self.cargo;
+	} else if(self.cat == kCat_VALUE){
+		if(self.type == kToken_NUMBER){
+		s = s + myljust->ljust(tokenTypeLen, "Value(NUM)", ".") + ":" + space + self.cargo;
+		}
+		if(self.type == kToken_STRING){
+		s = s + myljust->ljust(tokenTypeLen, "Value(STR)", ".") + ":" + space + self.cargo;
+		}
+		if(self.type == kToken_BOOL){
+		s = s + myljust->ljust(tokenTypeLen, "Value(BOOL)", ".") + ":" + space + self.cargo;
+		}
+	} else if(self.cat == kCat_KEYWORD){
+		s = s + myljust->ljust(tokenTypeLen, "Keyword", ".") + ":" + space + self.cargo;
+	} else if(self.cat == kCat_TYPE){
+		if(self.type == kToken_NUMBER){
+		s = s + myljust->ljust(tokenTypeLen, "Type(NUM)", ".") + ":" + space + self.cargo;
+		}
+		if(self.type == kToken_STRING){
+		s = s + myljust->ljust(tokenTypeLen, "Type(STR)", ".") + ":" + space + self.cargo;
+		}
+		if(self.type == kToken_BOOL){
+		s = s + myljust->ljust(tokenTypeLen, "Type(BOOL)", ".") + ":" + space + self.cargo;
+		}
+	} else if(self.cat == kCat_IDENTIFIER){
+		s = s + myljust->ljust(tokenTypeLen, "Identifier", ".") + ":" + space + self.cargo;
+	} else if(self.cat == kCat_UNKNOWN){
+		s = s + myljust->ljust(tokenTypeLen, "UNKNOWN", ".") + ":" + space + self.cargo;
+	}  else if(self.cat == kCat_EOS){
+		s = s + myljust->ljust(tokenTypeLen, "EOS", ".") + ":" + space + self.cargo;
 	} 
 	else {
 		s = s + myljust->ljust(tokenTypeLen + 2, "OTHER", ".") + ":" + space + self.cargo;
@@ -409,32 +410,33 @@ Token Lexer::lexerMain()
 		return retPackage;
 	}
 	
-		if(isTypeStartChars(c2) != kToken_UNKNOWN)
+		
+
+
+if(isTypeStartChars(c2) != kToken_UNKNOWN)
+	{
+		TokenID fill;
+		fill = isTypeStartChars(c2);
+		cout << "type1!";
+		int a_lookahead = 0;
+		if(typeLookAhead(fill, a_lookahead) != kToken_UNKNOWN)
 		{
-			TokenID fill;
-			fill = isTypeStartChars(c2);
-			int a_lookahead = 0;
-			if(typeLookAhead(fill, a_lookahead) != kToken_UNKNOWN)
+			cout << "typst2!";
+			string retCargo = c2;
+			retPackage.type = fill;//typeLookAhead(fill, a_lookahead);
+			getCharPackage();
+			for (int i = 0; i < a_lookahead; i++)
 			{
-				string retCargo = c2;
-				retPackage.type = typeLookAhead(fill, a_lookahead);
 				getCharPackage();
-				for (int i = 0; i < a_lookahead; i++)
-				{
-					getCharPackage();
-					retCargo += c1;
-				}
-				retPackage.cargo = retCargo;
-				retPackage.cat = kCat_TYPE;
-				getCharPackage();
-				return retPackage;
+				retCargo += c1;
+			}
+			retPackage.cargo = retCargo;
+			retPackage.cat = kCat_TYPE;
+			getCharPackage();
+			return retPackage;
 		}
 		
 	}
-
-
-
-
 
 
 	if(isIdentifierStartChar(c1))
@@ -458,6 +460,10 @@ Token Lexer::lexerMain()
 		//if(retPackage in Keywords){retPackage.type = retPackage.cargo;} //c++ implementation of this concept needed... :(
 		return retPackage;
 	}
+
+	
+
+
     string xy;
     int loopage;
 	if (isNumberStart(c1, xy, loopage)){
@@ -471,9 +477,8 @@ Token Lexer::lexerMain()
 		return retPackage;
 	}
 	if(c1 == "\""){
-		string quoteChar = c1;
+		string quoteChar = "\"";
 		getCharPackage();
-
 		while(c1 != quoteChar){
 			if (c1 == "\0"){
 				abort(retPackage, "Found end of file before string literal");
@@ -481,7 +486,6 @@ Token Lexer::lexerMain()
 			retPackage.cargo += c1;
 			getCharPackage();
 		}
-		retPackage.cargo += c1;
 		getCharPackage();
 		retPackage.type = kToken_STRING;
 		retPackage.cat = kCat_VALUE;

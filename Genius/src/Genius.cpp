@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 
 
 // OLD Lexer Handler.
-/*
+
 
 	Token tok, initializer;
 
@@ -57,9 +57,9 @@ int main(int argc, char const *argv[])
 			break;
 		}
 	}
+	std::cout << "\n\n\n";
 
 
-*/
 
 
 	//END OLD CODE/HANDLERS
