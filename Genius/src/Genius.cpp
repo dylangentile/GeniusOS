@@ -33,8 +33,8 @@ int main(int argc, char const *argv[])
 
 
 // OLD Lexer Handler.
-
 /*
+
 	Token tok, initializer;
 
 	Lexer *mylexer = new Lexer;
@@ -58,8 +58,8 @@ int main(int argc, char const *argv[])
 		}
 	}
 
-*/
 
+*/
 
 
 	//END OLD CODE/HANDLERS
@@ -70,10 +70,14 @@ int main(int argc, char const *argv[])
 	Parser *myparser = new Parser;
 
 	UsefulFunc *myrecursor = new UsefulFunc;
-	std::string ast = myparser->parse(thefile, true);
+	std::string msg = myparser->parse(thefile, true);
 	
 
-	std::cout << ast;
+	std::cout << msg;
+	
+
+
+
 	//std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
 	/*
 	bool test = true; //= myrecursor->writeOut(ast, theoutput, true);

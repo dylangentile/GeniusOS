@@ -28,6 +28,7 @@ void Scanner::initialize(string sourceTextArg){
   	std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
 	msourceText = content;
+	filename = sourceTextArg;
 	mlastIndex = msourceText.length() - 1;
 	msourceIndex = -1;
 	mlineIndex = 0;
@@ -60,7 +61,7 @@ Character Scanner::getChar(){
 		w.sourceIndex = msourceIndex;
 		w.sourceText = msourceText;
 	}
-
+	w.memberofFile = filename;
 	return w;
 }
 

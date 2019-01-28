@@ -178,7 +178,10 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 		s = s + myljust->ljust(tokenTypeLen, "WHITESPACE", ".") + ":" + space + self.cargo;
 	} else if(self.type == kToken_NUMBER){
 		s = s + myljust->ljust(tokenTypeLen, "Integer", ".") + ":" + space + self.cargo;
-	} else {
+	} else if(self.type == kToken_COMMENT){
+		s = s + myljust->ljust(tokenTypeLen, "Comment", ".") + ":" + space + self.cargo;
+	} 
+	else {
 		s = s + myljust->ljust(tokenTypeLen + 2, "OTHER", ".") + ":" + space + self.cargo;
 	}
 	return s;
@@ -187,9 +190,9 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 
 
 void Lexer::abort(Token x, string msg){
-	cout << "You made a boo boo. Here's descriptive error description: \n\t"<< x.lineIndex/5120 <<":" <<x.colIndex << "=";
-	cout <<  "[ " << msg << "]\n";
-
+	cout << "You made a boo boo. Here's descriptive error description: \n\tIn file "<< fileMbrSv << " at " << lnDex <<":" << clDex << "\n";
+	cout <<  "\t\t[" << msg << "]\n";
+	getCharPackage();
 	doabort = true;
 }
 
@@ -232,6 +235,8 @@ void Lexer::getCharPackage(){
 	c1 = readChar.cargo;
 	c2 = c1 + myscanner->lookahead(1);
 
+	tempSourceTextName = readChar.memberofFile;
+
 	tempSourceText = readChar.sourceText;
 	tempLineIndex = readChar.lineIndex;
 	tempcolIndex = readChar.colIndex;
@@ -241,9 +246,9 @@ void Lexer::getCharPackage(){
 
 bool Lexer::isNumberStart(string num, string &finishedCargo, int &loops){
     loops = 0;
-    if((num <= "9" && num >= "0") || num == "+" || num == "-")
+    if((num <= "9" && num >= "0"))
     {
-        if(num == "+" || num == "-")
+        if(num <= "9" && num >= "0")
         {
             if(myscanner->lookahead(1) <= "9" && myscanner->lookahead(1) >= "0")
             {
@@ -342,7 +347,7 @@ Token Lexer::lexerMain()
         getCharPackage();
         return retPackage;
     }
-	while(isWhitespaceChar(c1) || c2 == "/*")
+	while(isWhitespaceChar(c1) || c2 == "/*" || c2 == "//")
 	{
 		while (isWhitespaceChar(c1))
 		{
@@ -368,19 +373,41 @@ Token Lexer::lexerMain()
 				{
 					abort(retPackage, "Found end of file before end of comment");
 				}
+				if(c2 == "/*"){
+					getCharPackage();
+					abort(retPackage, "ELIMINATE ALL NESTED COMMENTS!!!");
+				}
 				retPackage.cargo += c1;
 				getCharPackage();	
 			}
 			retPackage.cargo += c1;
 			getCharPackage();
 			getCharPackage();
+
             return retPackage;
+		}
+		while(c2 == "//"){
+			retPackage.cargo = c2;
+			retPackage.type = kToken_COMMENT;
+			getCharPackage();
+			getCharPackage();
+			while(c1 != "\n"){
+				getCharPackage();
+			}
+			return retPackage;
+
 		}
 
 	}
 
 
-
+	if(c1 == ";"){
+		retPackage.type = kToken_SEMICOLON;
+		retPackage.cargo = ";";
+		retPackage.cat = kCat_EOS;
+		getCharPackage();
+		return retPackage;
+	}
 	
 		if(isTypeStartChars(c2) != kToken_UNKNOWN)
 		{
@@ -398,6 +425,7 @@ Token Lexer::lexerMain()
 					retCargo += c1;
 				}
 				retPackage.cargo = retCargo;
+				retPackage.cat = kCat_TYPE;
 				getCharPackage();
 				return retPackage;
 		}
@@ -426,6 +454,7 @@ Token Lexer::lexerMain()
 			retPackage.type = isKeyword(retPackage.cargo);
 		}	
 
+		retPackage.cat = kCat_IDENTIFIER;
 		//if(retPackage in Keywords){retPackage.type = retPackage.cargo;} //c++ implementation of this concept needed... :(
 		return retPackage;
 	}
@@ -438,6 +467,7 @@ Token Lexer::lexerMain()
         for(int x = 0; x < loopage; x++){
             getCharPackage();
         }
+        retPackage.cat = kCat_VALUE;
 		return retPackage;
 	}
 	if(c1 == "\""){
@@ -454,6 +484,7 @@ Token Lexer::lexerMain()
 		retPackage.cargo += c1;
 		getCharPackage();
 		retPackage.type = kToken_STRING;
+		retPackage.cat = kCat_VALUE;
 		return retPackage;
 	}
 	if(isTwoCharOperator(c2) != kToken_UNKNOWN){
@@ -461,17 +492,18 @@ Token Lexer::lexerMain()
 		retPackage.type = isTwoCharOperator(c2);
 		getCharPackage();
 		getCharPackage();
+		retPackage.cat = kCat_OPERATOR;
 		return retPackage;
 	}
 	if(isOneCharSymbol(c1) != kToken_UNKNOWN){
 		retPackage.cargo = c1;
 		retPackage.type = isOneCharSymbol(c1);
 		getCharPackage();
+		retPackage.cat = kCat_OPERATOR;
 		return retPackage;
 	}
 
 	abort(retPackage, "I've found a character or symbol that's unrecognizeable: \"" + c1 + "\"");
-	getCharPackage();
 	return retPackage;
 }
 
@@ -485,10 +517,12 @@ Token Lexer::lexerhandler(string doInit){
 		
 //cannot call NULL first....
 		finishRet.sourceText = srcTxtSv;
+		finishRet.sourceName = fileMbrSv;
 		finishRet.lineIndex = lnDex;
 		finishRet.colIndex = clDex;
 
 		srcTxtSv = tempSourceText;
+		fileMbrSv = tempSourceTextName;
 		lnDex = tempLineIndex;
 		clDex = tempcolIndex;
 
@@ -497,6 +531,7 @@ Token Lexer::lexerhandler(string doInit){
 	else
 	{
 		lexerInit(doInit);
+		fileMbrSv = tempSourceTextName;
 		srcTxtSv = tempSourceText;
 		lnDex = tempLineIndex;
 		clDex = tempcolIndex;

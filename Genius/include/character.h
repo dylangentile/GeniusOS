@@ -7,7 +7,7 @@
 typedef struct {
 	std::string cargo;
 	int sourceIndex, lineIndex, colIndex;
-	std::string sourceText;
+	std::string sourceText, memberofFile;
 } Character;
 
 std::string str(Character token);

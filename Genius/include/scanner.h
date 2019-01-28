@@ -18,6 +18,6 @@ public:
 
 
 private:
-	std::string msourceText;
+	std::string msourceText, filename;
  	int mlastIndex, msourceIndex, mlineIndex, mcolIndex;
 };

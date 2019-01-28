@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-
 class UsefulFunc
 {
 public:
@@ -11,7 +10,6 @@ public:
 	~UsefulFunc();
 
 public:
-
 	std::string rjust(int x, std::string s, std::string filler = " ");
 	std::string ljust(int x, std::string s, std::string filler = " ");
 	std::string recursiveOut(int x, std::string s);

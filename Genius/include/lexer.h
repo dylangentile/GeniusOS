@@ -6,6 +6,15 @@
 #include <string>
 #include <map>
 
+typedef enum{
+	kCat_OPERATOR,
+	kCat_KEYWORD,
+	kCat_VALUE,
+	kCat_IDENTIFIER,
+	kCat_EOS, //End Of Statement
+	kCat_UNKNOWN,
+	kCat_TYPE
+}TokenCAT;
 
 typedef enum 
 {
@@ -61,9 +70,10 @@ typedef enum
 } TokenID;
 
 typedef struct{
-	std::string cargo, sourceText;
+	std::string cargo, sourceText, sourceName;
 	int lineIndex, colIndex; 
 	TokenID type;
+	TokenCAT cat;
 } Token;
 
 
@@ -96,9 +106,9 @@ private:
 private:
 	std::string c1, c2;
 	UsefulFunc *myljust;
-	std::string tempSourceText;
+	std::string tempSourceText, tempSourceTextName;
 	int tempLineIndex, tempcolIndex;
-std::string srcTxtSv;
+std::string srcTxtSv, fileMbrSv;
 	int lnDex = 0, clDex = 0;
 	Scanner *myscanner;
 
