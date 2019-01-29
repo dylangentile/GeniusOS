@@ -26,7 +26,7 @@ typedef enum
 	kToken_WHILE, 
 	kToken_LOOP, 
 	kToken_ENDLOOP, 
-	kToken_PRINT, 
+	kToken_PUSH, 
 	kToken_RETURN, 
 	kToken_QUIT,
 	kToken_OPEN,

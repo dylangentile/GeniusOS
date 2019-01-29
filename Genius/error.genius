@@ -1,0 +1,12 @@
+num x = 5;
+bool y = true;
+string g = "hello";
+
+/*
+754678+89807;
+3456789* 98765 ;
+500 * +5;
+bool g = false;
+num z = 5;
+z == 2;
+*/
