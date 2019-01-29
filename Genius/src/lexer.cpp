@@ -25,7 +25,6 @@ Lexer::Lexer(){
 	mKeywordMap.insert(make_pair("push",kToken_PUSH));
 	mKeywordMap.insert(make_pair("return",kToken_RETURN));
 	mKeywordMap.insert(make_pair("quit",kToken_QUIT));
-
 	mOperatorMap.insert(make_pair("{", kToken_OPEN));
 	mOperatorMap.insert(make_pair("}", kToken_CLOSE));
 	mOperatorMap.insert(make_pair("=",kToken_EQUALS));
@@ -51,6 +50,7 @@ Lexer::Lexer(){
 	mOperatorMap.insert(make_pair("+=",kToken_PLUSEQUALS));
 	mOperatorMap.insert(make_pair("-=",kToken_MINUSEQUALS));
 	mOperatorMap.insert(make_pair("||",kToken_OR));
+	mOperatorMap.insert(make_pair("->", kToken_ARROW));
 	mTypeMap.insert(make_pair("\"",kToken_QUOTE));
 	mTypeMap.insert(make_pair("string",kToken_STRING));
 	mTypeMap.insert(make_pair("num",kToken_NUMBER));
@@ -73,27 +73,34 @@ Lexer::typeLookAhead(TokenID y, int &o_look){
 	string temp;
 	if (y == kToken_NUMBER){
 		temp = c2 + myscanner->lookahead(2);
-		if(temp == "num"){
-			cout << "number!";
+		temp +=  myscanner->lookahead(3, true); //look for whitespace
+		if(temp == "num "){
 			o_look = 1;
 			return kToken_NUMBER;
 		}
 
 	}
 	if (y == kToken_STRING){
-		cout << "testFor Sttinh";
-		temp = c2 + myscanner->lookahead(5);
-		if(temp == "string"){
-			cout << "string!";
-			o_look = 4;
+		temp = c2 + myscanner->lookahead(2);
+		temp += myscanner->lookahead(3);
+		temp += myscanner->lookahead(4);
+		temp += myscanner->lookahead(5);
+		temp += myscanner->lookahead(6, true); //look for whitespace
+
+
+
+		if(temp == "string "){
+			o_look = 5;
 			return kToken_STRING;
 		}
 	}
 	if (y == kToken_BOOL){
-		temp = c2 + myscanner->lookahead(3);
-		if(temp == "bool"){
-			cout << "bool!";
-			o_look = 2;
+		temp = c2 + myscanner->lookahead(2);
+		temp += myscanner->lookahead(3);
+		temp += myscanner->lookahead(4, true); //look for whitespace
+
+		if(temp == "bool "){
+			o_look = 3;
 			return kToken_BOOL;
 		}
 	}
@@ -408,20 +415,16 @@ Token Lexer::lexerMain()
 		retPackage.cat = kCat_EOS;
 		getCharPackage();
 		return retPackage;
-	}
-	
-		
+	}		
 
 
 if(isTypeStartChars(c2) != kToken_UNKNOWN)
 	{
 		TokenID fill;
 		fill = isTypeStartChars(c2);
-		cout << "type1!";
 		int a_lookahead = 0;
 		if(typeLookAhead(fill, a_lookahead) != kToken_UNKNOWN)
 		{
-			cout << "typst2!";
 			string retCargo = c2;
 			retPackage.type = fill;//typeLookAhead(fill, a_lookahead);
 			getCharPackage();
@@ -454,6 +457,8 @@ if(isTypeStartChars(c2) != kToken_UNKNOWN)
 		if (isKeyword(retPackage.cargo) != kToken_UNKNOWN)
 		{
 			retPackage.type = isKeyword(retPackage.cargo);
+			retPackage.cat = kCat_KEYWORD;
+			return retPackage;
 		}	
 
 		retPackage.cat = kCat_IDENTIFIER;

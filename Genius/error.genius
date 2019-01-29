@@ -1,7 +1,9 @@
 num x = 5;
 bool y = true;
 string g = "hello";
-
+push g -> o;
+stringg;
+if then else quit
 /*
 754678+89807;
 3456789* 98765 ;

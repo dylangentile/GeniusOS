@@ -32,9 +32,9 @@ int main(int argc, char const *argv[])
 
 
 
-// OLD Lexer Handler.
+// OLD Lexer Handler. --Works well for testing, prints out the tokens along with what it thinks they are...
 
-
+/*
 	Token tok, initializer;
 
 	Lexer *mylexer = new Lexer;
@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 	std::cout << "\n\n\n";
 
 
-
+*/
 
 	//END OLD CODE/HANDLERS
 
