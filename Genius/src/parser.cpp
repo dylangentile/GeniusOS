@@ -46,10 +46,10 @@ Parser::throwError(int errorId, int where, string msg){
 
 bool 
 Parser::statement(){
-	cout << "\n";
+	/*cout << "\n";
 	for(int i = 0; i < theTokenArray.size(); i++){
 		cout << i << ":" <<theTokenArray.at(i).cargo <<"\n";
-	}
+	}*/
 
 	int stLen = 0;
 	while(theTokenArray.at(stLen).type != kToken_SEMICOLON){
