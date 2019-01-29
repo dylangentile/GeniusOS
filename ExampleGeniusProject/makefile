@@ -6,7 +6,7 @@
 #
 
 # define the genius compiler to use
-CC = genius++
+CC = genius
 
 # define any compile-time flags
 CFLAGS = -Wall -g

@@ -3,7 +3,7 @@
 
 lookup // a lookup is a method that can be used to generalise strings inputted into methods such as +-=/ or more complicated things such as x -> get(), ie refering to void functions. 
 Operators{
-	"+" -> +; //char refers to a method
+	"+" -> #+; //char refers to method #+
 }
 
 
