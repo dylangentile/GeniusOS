@@ -1,5 +1,6 @@
-num x = 5;
-bool y = true;
+//num 5 = 5;
+~~!
+bool y != "hello";
 string g = "hello";
 push g -> o;
 stringg;

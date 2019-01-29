@@ -33,13 +33,14 @@ public:
 
 private:
 	Token fetchToken();
-	void throwError(int errorId, std::string msg = "");
+	void throwError(int errorId, int where, std::string msg = "");
 	
-
+	std::string errFormat(std::string append, int where, std::string msg);
 private:
 	Lexer *mylexer;
 	bool verbose;
 	std::vector <Token> theTokenArray;
 	std::string retMsg;
+	int stBeg;
 };
 

@@ -19,17 +19,22 @@ Parser::~Parser(){
 
 }
 
+string
+Parser::errFormat(string append, int where, string msg){
+	return (append+"\n\tIn File:\033[1m"+theTokenArray.at(where).sourceName + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).lineIndex) + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).colIndex) + "\033[0m...:\n\t\t"+ msg + "\n");
+}
+
 void
-Parser::throwError(int errorId, string msg){
+Parser::throwError(int errorId, int where, string msg){
 	//0 improper casting
 	//1 improper Syntax
 	//2 wrong value for type 
 	switch(errorId){
-		case 0: retMsg = "General Error\n\tCode:'0'\n\t\t" + msg + "\n";
+		case 0: retMsg = errFormat("General Error\n\tCode:'0'", where, msg);
 			break;
-		case 1: retMsg = "General Error\n\tCode:'1'\n\t\t" + msg + "\n";
+		case 1: retMsg = errFormat("General Error:\n\tCode:'1'",where, msg);
 			break;
-		case 2: retMsg = "General Error\n\tCode:'2'\n\t\t" + msg + "\n";
+		case 2: retMsg = errFormat("General Error:\n\tCode:'2'",where, msg);
 			break;
 		case 666: retMsg = "Satanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
@@ -66,12 +71,12 @@ Parser::statement(){
 					} 
 					else
 					{
-						throwError(2, ("The value: " + theTokenArray.at(3).cargo + " is an invalid value for " + theTokenArray.at(1).cargo + " of type " + theTokenArray.at(0).cargo));
+						throwError(2, 1, ("The value: " + theTokenArray.at(3).cargo + " is an invalid value for " + theTokenArray.at(1).cargo + " of type " + theTokenArray.at(0).cargo));
 					}
 				} 
 				else
 				{
-					throwError(1, ("Identifier: " + theTokenArray.at(1).cargo + " was a assigned a non-value: " + theTokenArray.at(3).cargo));
+					throwError(1, 3, ("Identifier: " + theTokenArray.at(1).cargo + " was a assigned a non-value: " + theTokenArray.at(3).cargo));
 				}
 			}
 			else if (theTokenArray.at(2).type == kToken_SEMICOLON)
@@ -80,13 +85,13 @@ Parser::statement(){
 			}
 			else
 			{
-				throwError(0, ("Identifier: " + theTokenArray.at(1).cargo + " was cast to type " + theTokenArray.at(0).cargo + " but it was followed by: " + theTokenArray.at(2).cargo));
+				throwError(0, 2,("Identifier: " + theTokenArray.at(1).cargo + " was cast to type " + theTokenArray.at(0).cargo + " but it was followed by: " + theTokenArray.at(2).cargo));
 				return false;
 			}
 		}
 		else
 		{
-			throwError(0, ("The type: \033[33;1m" + theTokenArray.at(0).cargo + "\033[0m at line:\033[31;1m" + to_string(theTokenArray.at(0).lineIndex) + "\033[0m in file \033[1m" + theTokenArray.at(0).sourceName +  "\033[0m is followed by a non identifier: \033[33;1m" + theTokenArray.at(1).cargo + "\033[0m"));
+			throwError(0, 1, ("The type: \033[33;1m" + theTokenArray.at(0).cargo + "\033[0m is followed by a non identifier: \033[33;1m" + theTokenArray.at(1).cargo + "\033[0m"));
 			return false;
 		}
 	}
