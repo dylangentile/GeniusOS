@@ -8,3 +8,5 @@ It's an operating system and cross platform development environment with Genius,
   //if this doesn't work it means I forgot to reset my personal makefile. Just goto line 9 and change the CC to equal g++
 4. ./genius Sourcecode.genius to compile your code. I recomend using a makefile for this however.
 5. Also, please add genius to your path, we need your support.
+
+Useful page for make info http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
