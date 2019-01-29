@@ -57,6 +57,8 @@ int main(int argc, char const *argv[])
 			break;
 		}
 	}
+	char xl;
+	std::cin >> xl;
 	std::cout << "\n\n\n";
 
 
