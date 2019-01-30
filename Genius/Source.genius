@@ -1,3 +1,4 @@
-num x = 5;
+num x, g = 5, z, w = 3, q;
+//num y,z;
 x = x+7;
 push x -> o;

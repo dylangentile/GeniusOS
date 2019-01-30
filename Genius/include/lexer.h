@@ -12,6 +12,7 @@ typedef enum{
 	kCat_VALUE,
 	kCat_IDENTIFIER,
 	kCat_EOS, //End Of Statement
+	kCat_COMMA,
 	kCat_UNKNOWN,
 	kCat_TYPE
 }TokenCAT;
@@ -66,6 +67,7 @@ typedef enum
 	kToken_NUMBER, 
 	kToken_COMMENT,
 	kToken_EMPTY,
+	kToken_COMMA,
 	kToken_EOF
 	
 } TokenID;

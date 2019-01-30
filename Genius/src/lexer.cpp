@@ -26,6 +26,7 @@ Lexer::Lexer(){
 	mKeywordMap.insert(make_pair("return",kToken_RETURN));
 	mKeywordMap.insert(make_pair("quit",kToken_QUIT));
 	mOperatorMap.insert(make_pair("{", kToken_OPEN));
+	mOperatorMap.insert(make_pair(",", kToken_COMMA));
 	mOperatorMap.insert(make_pair("}", kToken_CLOSE));
 	mOperatorMap.insert(make_pair("=",kToken_EQUALS));
 	mOperatorMap.insert(make_pair("(",kToken_LPAREN));
@@ -413,6 +414,13 @@ Token Lexer::lexerMain()
 		retPackage.type = kToken_SEMICOLON;
 		retPackage.cargo = ";";
 		retPackage.cat = kCat_EOS;
+		getCharPackage();
+		return retPackage;
+	}
+	if(c1 == ","){
+		retPackage.type = kToken_COMMA;
+		retPackage.cat = kCat_COMMA;
+		retPackage.cargo = ",";
 		getCharPackage();
 		return retPackage;
 	}		

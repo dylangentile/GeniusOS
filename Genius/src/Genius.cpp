@@ -57,8 +57,7 @@ int main(int argc, char const *argv[])
 			break;
 		}
 	}
-	char xl;
-	std::cin >> xl;
+	
 	std::cout << "\n\n\n";
 
 
@@ -80,17 +79,7 @@ int main(int argc, char const *argv[])
 
 
 
-	//std::cout << myrecursor->recursiveOut(80, "~") << "Here is the abstract syntax tree:" << myrecursor->recursiveOut(80, "~");
-	/*
-	bool test = true; //= myrecursor->writeOut(ast, theoutput, true);
 	
-	if(test){
-		std::cout << "\n\nSomething prevented my from outputting your ast. I did all that work, parsing, tokenizing, scanning, etc. And this is the thanks your system gives me! Damn you!\n\n";
-	} else{
-		std::cout << ast;
-	}
-
-	*/
 
 	std::cout << '\n';
 	//delete myparser;

@@ -12,6 +12,7 @@ Node::~Node(){
 
 Parser::Parser(){
 	worked = true;
+	stBeg =0;
 
 	mylexer = new Lexer;
 }
@@ -36,6 +37,8 @@ Parser::throwError(int errorId, int where, string msg){
 			break;
 		case 2: retMsg = errFormat("General Error:\n\tCode:'2'",where, msg);
 			break;
+		case 3: retMsg = errFormat("Common Error:\n\tCode:'3'", where, "Expected Semicolon, Comma, or another statement");
+			break;
 		case 666: retMsg = "Satanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
 	}
@@ -55,43 +58,113 @@ Parser::statement(){
 	while(theTokenArray.at(stLen).type != kToken_SEMICOLON){
 		stLen++;
 	}
+	cout << "\n\n\n";
 
-	if(theTokenArray.at(0).cat == kCat_TYPE)
+	if(theTokenArray.at(stBeg).cat == kCat_TYPE)
 	{
-		if(theTokenArray.at(1).cat == kCat_IDENTIFIER)
+		if(theTokenArray.at(stBeg+1).cat == kCat_IDENTIFIER)
 		{
-			if(theTokenArray.at(2).type == kToken_EQUALS)
+			if(theTokenArray.at(stBeg+2).type == kToken_EQUALS)
 			{
-				if(theTokenArray.at(3).cat == kCat_VALUE)
+				if(theTokenArray.at(stBeg+3).cat == kCat_VALUE)
 				{
-					if(theTokenArray.at(3).type == theTokenArray.at(0).type){
+					if(theTokenArray.at(stBeg+3).type == theTokenArray.at(stBeg).type){
 						if(4 == stLen){
 							//create initialized variable
+						}
+						else
+						{
+							throwError(3, stBeg+4);
 						}
 					} 
 					else
 					{
-						throwError(2, 1, ("The value: " + theTokenArray.at(3).cargo + " is an invalid value for " + theTokenArray.at(1).cargo + " of type " + theTokenArray.at(0).cargo));
+						throwError(2, stBeg+1, ("The value: " + theTokenArray.at(stBeg+3).cargo + " is an invalid value for " + theTokenArray.at(stBeg+1).cargo + " of type " + theTokenArray.at(stBeg).cargo));
 					}
 				} 
 				else
 				{
-					throwError(1, 3, ("Identifier: " + theTokenArray.at(1).cargo + " was a assigned a non-value: " + theTokenArray.at(3).cargo));
+					throwError(1, stBeg+3, ("Identifier: " + theTokenArray.at(stBeg+1).cargo + " was a assigned a non-value: " + theTokenArray.at(stBeg+3).cargo));
 				}
 			}
-			else if (theTokenArray.at(2).type == kToken_SEMICOLON)
+			else if (theTokenArray.at(stBeg+2).type == kToken_SEMICOLON)
 			{
 				//create uninitialized variable;
 			}
+			else if(theTokenArray.at(stBeg+2).type == kToken_COMMA)
+			{
+				int j = 3;
+				//vector<tuple<int, int>> initId; //idetifer token id num to be init, and the token with the value's id(not its value) 
+				auto ter = make_tuple(stBeg+1, -1); 
+				initId.push_back(ter);
+				while(true)
+				{
+					int mody = 0;
+					//cout << "yodawg";
+					if(theTokenArray.at(stBeg+j).cat == kCat_IDENTIFIER)
+					{
+						cout << "\nidentifier";
+						if(theTokenArray.at(stBeg+1+j).cat == kCat_COMMA)
+						{
+							cout << "\ncomma";
+							auto temp = make_tuple(stBeg+j, -1);
+							initId.push_back(temp);
+							mody = j + 2;
+						}
+						else if(theTokenArray.at(stBeg+1+j).type == kToken_SEMICOLON)
+						{
+							cout << "\nsemi";
+							break;
+							
+						}
+						else if(theTokenArray.at(stBeg+1+j).type == kToken_EQUALS)
+						{
+							cout << "\nfound equals";
+							if(theTokenArray.at(stBeg+2+j).cat == kCat_VALUE)
+							{
+								cout << "\nfound value";
+								if(theTokenArray.at(stBeg+2+j).type == theTokenArray.at(stBeg).type)
+								{
+									cout << "\nFound matching types";
+									auto temp = make_tuple(stBeg+j, stBeg+2+j);
+									cout << "\nasdfsadf";
+									initId.push_back(temp);
+									cout << "\nyodawg";
+									mody = j + 3;
+									cout << "\nassigned";
+
+								} 
+								else
+								{
+									cout << "\nthrwo me a frickin bone hweer?";
+									throwError(2, stBeg+1, ("The value: " + theTokenArray.at(stBeg+3).cargo + " is an invalid value for " + theTokenArray.at(stBeg+1).cargo + " of type " + theTokenArray.at(stBeg).cargo));
+									break;
+								}
+							} 
+							else
+							{
+								throwError(1, stBeg+3+j, ("Identifier: " + theTokenArray.at(stBeg+1).cargo + " was a assigned a non-value: " + theTokenArray.at(stBeg+3).cargo));
+								break;
+							}
+						}
+						else
+						{
+							throwError(3, stBeg+1+j);
+							break;
+						}
+					}
+					j = mody;
+				}
+			}
 			else
 			{
-				throwError(0, 2,("Identifier: " + theTokenArray.at(1).cargo + " was cast to type " + theTokenArray.at(0).cargo + " but it was followed by: " + theTokenArray.at(2).cargo));
+				throwError(0, stBeg+2,("Identifier: " + theTokenArray.at(stBeg+1).cargo + " was cast to type " + theTokenArray.at(stBeg+0).cargo + " but it was followed by: " + theTokenArray.at(stBeg+2).cargo));
 				return false;
 			}
 		}
 		else
 		{
-			throwError(0, 1, ("The type: \033[33;1m" + theTokenArray.at(0).cargo + "\033[0m is followed by a non identifier: \033[33;1m" + theTokenArray.at(1).cargo + "\033[0m"));
+			throwError(0, stBeg+1, ("The type: \033[33;1m" + theTokenArray.at(stBeg).cargo + "\033[0m is followed by a non identifier: \033[33;1m" + theTokenArray.at(stBeg+1).cargo + "\033[0m"));
 			return false;
 		}
 	}
@@ -134,6 +207,10 @@ string Parser::parse(std::string srcFile, bool verbosity){
 	}
 	if(!x){
 		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + srcFile + " during parsing.\n1\n";
+	}
+	for(int i = 0; i < 2; i++){
+		auto t = initId.at(i);
+		cout << "\n" << get<0>(t) << ":" << get<1>(t);
 	}
 	return retMsg;
 
