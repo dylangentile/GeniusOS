@@ -1,4 +1,11 @@
+string x = "whazza", y, g = "", w = "hello?";
 num x, g = 5, z, w = 3, q;
-//num y,z;
+num z, q, hj;
+num g(num x, num y, string p){
+	
+}
+/*x=1, g=3, z = 7, w =9, q =13;
+num y,z;
 x = x+7;
-push x -> o;
+push x -> o;*/
+//hello

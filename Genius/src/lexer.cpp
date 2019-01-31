@@ -401,6 +401,9 @@ Token Lexer::lexerMain()
 			getCharPackage();
 			getCharPackage();
 			while(c1 != "\n"){
+				if(c1 == "\0"){
+					return retPackage;
+				}
 				getCharPackage();
 			}
 			return retPackage;

@@ -36,8 +36,8 @@ public:
 private:
 	Token fetchToken();
 	void throwError(int errorId, int where, std::string msg = "");
-	
-	std::string errFormat(std::string append, int where, std::string msg);
+	bool commaedInits(int stBeg, int idTwothTokenPos);
+	std::string errFormat(std::string append, int where, std::string msg, bool color = false);
 private:
 	Lexer *mylexer;
 	bool verbose;
