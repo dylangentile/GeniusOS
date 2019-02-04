@@ -24,9 +24,9 @@ string
 Parser::errFormat(string append, int where, string msg, bool color){
 	if(color)
 	{
-		return (append+"\n\tIn File:\033[1m"+theTokenArray.at(where).sourceName + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).lineIndex) + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).colIndex) + "\033[0m...:\n\t\t"+ msg + "\n");
+		return (append+"\n\tIn File:\033[1m"+theTokenArray.at(where).sourceName + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).lineIndex + 1) + "\033[0m:\033[31;1m" + to_string(theTokenArray.at(where).colIndex + 1) + "\033[0m...:\n\t\t"+ msg + "\n");
 	}
-	return (append+"\n\tIn File:"+theTokenArray.at(where).sourceName + ":" + to_string(theTokenArray.at(where).lineIndex) + ":" + to_string(theTokenArray.at(where).colIndex) + "...:\n\t\t"+ msg + "\n");
+	return (append+"\n\tIn File:"+theTokenArray.at(where).sourceName + ":" + to_string(theTokenArray.at(where).lineIndex+1) + ":" + to_string(theTokenArray.at(where).colIndex+1) + "...:\n\t\t"+ msg + "\n");
 
 }
 
@@ -46,6 +46,8 @@ Parser::throwError(int errorId, int where, string msg){
 			break;
 		case 4:	retMsg += errFormat("\nCommon Error:\n\tCode:'4'", where, "Reached EndOfFile before EndOfStatement");
 			break;
+		case 5: retMsg += errFormat("\nDumb Error:\n\tCode:'5'", where, "Unexpected character(s)!");
+			break;
 		case 666: retMsg += "\nSatanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
 	}
@@ -56,49 +58,35 @@ Parser::throwError(int errorId, int where, string msg){
 
 bool
 Parser::commaedInits(int stBeg, int idTwothTokenPos){
-	cout << "\n\n";
 	int j = idTwothTokenPos;
-	cout << "\nStart";
-	cout << "\n\nJ="<<j;
 	while(true)
 	{
-		cout << "\nBegin";
 		int mody = -1;
 		if(theTokenArray.at(stBeg+j).cat == kCat_COMMA){
-			cout << "\nComma";
 			mody = 1;
 		}
 		if(theTokenArray.at(stBeg+j).cat == kCat_IDENTIFIER)
 		{
-			cout << "\nID";
 			if(theTokenArray.at(stBeg+1+j).cat == kCat_COMMA)
 			{
-				cout << "\nId+Comma";
 				auto temp = make_tuple(stBeg+j, -1);
-				cout << "\nAdded to vector: " << stBeg+j << "=-1\n";
 
 				initId.push_back(temp);
 				mody = 2;
 			} else if(theTokenArray.at(stBeg+1+j).type == kToken_SEMICOLON){
-				cout << "\nId+Semi";
 				auto temp = make_tuple(stBeg+j, -1);
-				cout << "\nAdded to vector: " << stBeg+j << "=-1\n";
 				initId.push_back(temp);
 				j++;
 				break;
 			}
 			else if(theTokenArray.at(stBeg+1+j).type == kToken_EQUALS)
 			{
-				cout << "\nEquals";
 				if(theTokenArray.at(stBeg+2+j).cat == kCat_VALUE)
 				{
-					cout << "\nValue";
 					if(theTokenArray.at(stBeg+2+j).type == theTokenArray.at(stBeg).type)
 					{
-						cout << "\nMatching Types";
 						auto temp = make_tuple(stBeg+j, stBeg+2+j);
 						initId.push_back(temp);
-						cout << "\nAdded to vector: " << stBeg+j << "=" << stBeg+j+2 << "\n";
 						mody = 3;
 
 					} 
@@ -140,7 +128,7 @@ Parser::statement(){
 	cout << "\n\nStbeg"<< stBeg;
 	int stLen = stBeg;
 	cout << "\n\nStleng" << stLen << "\n\n";
-	while(theTokenArray.at(stLen).type != kToken_SEMICOLON || theTokenArray.at(stLen).type != kToken_CLOSE){
+	while(theTokenArray.at(stLen).type != kToken_SEMICOLON && theTokenArray.at(stLen).type != kToken_CLOSE){
 		stLen++;
 		if(stLen >= theTokenArray.size()){
 			throwError(4, theTokenArray.at(stBeg).lineIndex);
@@ -152,25 +140,19 @@ Parser::statement(){
 
 	if(theTokenArray.at(stBeg).cat == kCat_TYPE)
 	{
-		cout << "\nType";
 		if(theTokenArray.at(stBeg+1).cat == kCat_IDENTIFIER)
 		{
-			cout << "\nID";
 			if(theTokenArray.at(stBeg+2).type == kToken_EQUALS)
 			{
-				cout << "\nEquals";
 				if(theTokenArray.at(stBeg+3).cat == kCat_VALUE)
 				{
-					cout << "\nValue";
 					if(theTokenArray.at(stBeg+3).type == theTokenArray.at(stBeg).type){
-						cout << "\nMatching type";
 						if(theTokenArray.at(stBeg+4).type == kToken_SEMICOLON){
 							auto temp = make_tuple(stBeg+1, stBeg+3);
 							initId.push_back(temp);
 						}
 						else if(theTokenArray.at(stBeg+4).type == kToken_COMMA)
 						{
-							cout << "\nBegin commed inits";
 							auto temp = make_tuple(stBeg+1, stBeg+3);
 							initId.push_back(temp);
 							bool result = commaedInits(stBeg, 5);
@@ -196,40 +178,52 @@ Parser::statement(){
 			}
 			else if (theTokenArray.at(stBeg+2).type == kToken_SEMICOLON)
 			{
-				cout << "\nSemi";
 				auto temp = make_tuple(stBeg+1, -1);
 				initId.push_back(temp);
 			}
 			else if(theTokenArray.at(stBeg+2).type == kToken_COMMA)
 			{
 				//vector<tuple<int, int>> initId; //idetifer token id num to be init, and the token with the value's id(not its value) 
-				cout << "\nOGCommaedINITS";
 				auto ter = make_tuple(stBeg+1, -1); 
 				initId.push_back(ter);
 				bool result = commaedInits(stBeg, 3);
-				cout << "\ndiod it";
 				if(!result){
 					return false;
 				}
 			} 
 			else if(theTokenArray.at(stBeg+2).type == kToken_LPAREN)
 			{
-				if(theTokenArray.at(stBeg+3).type == kToken_RPAREN){
-					if(theTokenArray.at(stBeg+4).type = kToken_OPEN){
+				cout << "\nlParen";
+				if(theTokenArray.at(stBeg+3).type == kToken_RPAREN)
+				{ cout << "\nrParen";
+					if(theTokenArray.at(stBeg+4).type == kToken_OPEN)
+					{
 						cout << "\nFunction!\n";
 						int tst = stBeg+4;
-						while(theTokenArray.at(tst).type != kToken_CLOSE){
+						while(theTokenArray.at(tst).type != kToken_CLOSE)
+						{
 							tst++;
-							if(tst >= theTokenArray.size()){
+							if(tst >= theTokenArray.size())
+							{
 								throwError(4, stBeg);
 								return false;
 							}
-							else{
+							else
+							{
 								stBeg = tst + 1;
 								//make function;
 							}
 						}
 					}
+				} 
+				else if(theTokenArray.at(stBeg+3).cat == kCat_TYPE)
+				{
+					cout << "\nType";
+				} 
+				else
+				{
+					throwError(5, stBeg+3);
+					return false;
 				}
 
 			}
@@ -246,7 +240,7 @@ Parser::statement(){
 		}
 	}
 	//continue to next statement;
-	stBeg += stLen + 1;
+	stBeg += (stLen - stBeg) + 1;
 	return true; 
 
 }

@@ -1,9 +1,12 @@
-string x = "whazza", y, g = "", w = "hello?";
-num x, g = 5, z, w = 3, q;
-num z, q, hj;
-num g(num x, num y, string p){
-	
+num x = 5;
+num y = 12;
+
+//z = x + y;
+
+num func(){
+
 }
+
 /*x=1, g=3, z = 7, w =9, q =13;
 num y,z;
 x = x+7;

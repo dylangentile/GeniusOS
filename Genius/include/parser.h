@@ -5,7 +5,7 @@
 #include <vector>
 #include <tuple>
 #include <stdexcept>
-
+/*
 typedef enum {
 	kNode_OPERATOR,
 	kNode_NUMBER
@@ -22,6 +22,12 @@ public:
 	Node *children;    
 };
 
+*/
+
+struct{
+	int memOf;
+	int assignsTo;
+} Function;
 
 
 class Parser{

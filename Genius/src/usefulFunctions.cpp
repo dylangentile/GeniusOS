@@ -3,6 +3,7 @@ using namespace std;
 
 string retVersion(){
     return "0.0.2";
+    //https://semver.org/ not following to the letter but closely. Version 0.0.1 was the scanner, Version 0.0.2 is the Lexer, Version 0.0.3 will be the Parser
 }
 
 UsefulFunc::UsefulFunc(){
