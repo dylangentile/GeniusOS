@@ -1,6 +1,6 @@
 #include "parser.h"
 using namespace std;
-
+/*
 Node::Node(){
 
 }
@@ -8,12 +8,11 @@ Node::Node(){
 Node::~Node(){
 
 }
-
+*/
 
 Parser::Parser(){
 	worked = true;
 	stBeg =0;
-
 	mylexer = new Lexer;
 }
 Parser::~Parser(){
@@ -71,11 +70,13 @@ Parser::commaedInits(int stBeg, int idTwothTokenPos){
 			{
 				auto temp = make_tuple(stBeg+j, -1);
 
-				initId.push_back(temp);
+				initId.insert(make_pair(theTokenArray.at(stBeg+j).cargo, temp));
+				debugIndex.push_back(theTokenArray.at(stBeg+j).cargo);
 				mody = 2;
 			} else if(theTokenArray.at(stBeg+1+j).type == kToken_SEMICOLON){
 				auto temp = make_tuple(stBeg+j, -1);
-				initId.push_back(temp);
+				initId.insert(make_pair(theTokenArray.at(stBeg+j).cargo, temp));
+				debugIndex.push_back(theTokenArray.at(stBeg+j).cargo);
 				j++;
 				break;
 			}
@@ -86,7 +87,10 @@ Parser::commaedInits(int stBeg, int idTwothTokenPos){
 					if(theTokenArray.at(stBeg+2+j).type == theTokenArray.at(stBeg).type)
 					{
 						auto temp = make_tuple(stBeg+j, stBeg+2+j);
-						initId.push_back(temp);
+						initId.insert(make_pair(theTokenArray.at(stBeg+j).cargo, temp));
+						debugIndex.push_back(theTokenArray.at(stBeg+j).cargo);
+					
+
 						mody = 3;
 
 					} 
@@ -149,12 +153,18 @@ Parser::statement(){
 					if(theTokenArray.at(stBeg+3).type == theTokenArray.at(stBeg).type){
 						if(theTokenArray.at(stBeg+4).type == kToken_SEMICOLON){
 							auto temp = make_tuple(stBeg+1, stBeg+3);
-							initId.push_back(temp);
+							initId.insert(make_pair(theTokenArray.at(stBeg+1).cargo, temp));
+							debugIndex.push_back(theTokenArray.at(stBeg+1).cargo);
+						
+
 						}
 						else if(theTokenArray.at(stBeg+4).type == kToken_COMMA)
 						{
 							auto temp = make_tuple(stBeg+1, stBeg+3);
-							initId.push_back(temp);
+							initId.insert(make_pair(theTokenArray.at(stBeg+1).cargo, temp));
+							string p = theTokenArray.at(stBeg+1).cargo
+							debugIndex.push_back(p);
+		
 							bool result = commaedInits(stBeg, 5);
 							if(!result){
 								return false;
@@ -179,13 +189,17 @@ Parser::statement(){
 			else if (theTokenArray.at(stBeg+2).type == kToken_SEMICOLON)
 			{
 				auto temp = make_tuple(stBeg+1, -1);
-				initId.push_back(temp);
+				initId.insert(make_pair(theTokenArray.at(stBeg+1).cargo, temp));
+				debugIndex.push_back(theTokenArray.at(stBeg+1).cargo);
+			
 			}
 			else if(theTokenArray.at(stBeg+2).type == kToken_COMMA)
 			{
 				//vector<tuple<int, int>> initId; //idetifer token id num to be init, and the token with the value's id(not its value) 
 				auto ter = make_tuple(stBeg+1, -1); 
-				initId.push_back(ter);
+				initId.insert(make_pair(theTokenArray.at(stBeg+1).cargo, ter));
+				debugIndex.push_back(theTokenArray.at(stBeg+1).cargo);
+			
 				bool result = commaedInits(stBeg, 3);
 				if(!result){
 					return false;
@@ -239,6 +253,24 @@ Parser::statement(){
 			return false;
 		}
 	}
+	if(theTokenArray.at(stBeg).cat == kCat_IDENTIFIER)
+	{
+		if(theTokenArray.at(stBeg+1).type == kToken_EQUALS)
+		{
+			if(theTokenArray.at(stBeg+2).cat = kCat_VALUE)
+			{
+							}
+		}
+		else if(theTokenArray.at(stBeg+1).type == kToken_DOT)
+		{
+
+		}
+		else if(theTokenArray.at(stBeg+1).type == kToken_ARROW){
+
+		} else{
+			//followed by unknown.
+		}
+	}
 	//continue to next statement;
 	stBeg += (stLen - stBeg) + 1;
 	return true; 
@@ -288,9 +320,13 @@ string Parser::parse(std::string srcFile, bool verbosity){
 	if(!x){
 		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + srcFile + " during parsing.\n1\n";
 	}
-	for(int i = 0; i < initId.size(); i++){
-		auto t = initId.at(i);
-		cout << "\n" << get<0>(t) << ":" << get<1>(t);
+	for(int i = 0; i < debugIndex.size(); i++){
+		map<string, tuple<int,int>>::iterator j = initId.find(debugIndex.at(i));
+		if(j == initId.end()){
+			
+		}
+
+		cout << "\n" << debugIndex.at(i) << ":" << j->second;
 	}
 	return retMsg;
 

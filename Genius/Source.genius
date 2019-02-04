@@ -1,8 +1,8 @@
 num x = 5;
 num y = 12;
 
-//z = x + y;
-
+z = x + y;
+x->y;
 num func(){
 
 }
