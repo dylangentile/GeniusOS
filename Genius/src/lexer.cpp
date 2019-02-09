@@ -470,7 +470,13 @@ if(isTypeStartChars(c2) != kToken_UNKNOWN)
 			retPackage.type = isKeyword(retPackage.cargo);
 			retPackage.cat = kCat_KEYWORD;
 			return retPackage;
-		}	
+		}
+		if(retPackage.cargo == "false" || retPackage.cargo == "true"){
+
+			retPackage.type = kToken_BOOL;
+			retPackage.cat = kCat_VALUE;
+			return retPackage;
+		}
 
 		retPackage.cat = kCat_IDENTIFIER;
 		//if(retPackage in Keywords){retPackage.type = retPackage.cargo;} //c++ implementation of this concept needed... :(

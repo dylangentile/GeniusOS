@@ -2,6 +2,7 @@
 
 #include "usefulFunctions.h"
 #include "lexer.h"
+#include "statement.h"
 #include <vector>
 #include <tuple>
 #include <stdexcept>
@@ -38,7 +39,7 @@ public:
 
 	Parser();
 	~Parser();
-	bool statement();
+	bool statement(FuncStatement *gFunc);
 	std::string parse(std::string srcFile, bool verbosity);
 	bool worked;
 
@@ -51,10 +52,7 @@ private:
 	Lexer *mylexer;
 	bool verbose;
 	std::vector <Token> theTokenArray;
-	std::map<std::string, std::tuple<int, Token, std::vector<int>>> identifierNameMap; //the map_key is the identifier, tuple(location in token array, the token, which tokens it's connected to.)
-	std::map<int, std::tuple<std::string, Token, std::vector<int>>> identifierMap; // map that is keyed with the token's id number.
-	std::map<std::string, std::tuple<int, int>> initId; //idetifer token id num to be init, and the token with the value's id(not its value) 
-	std::vector<std::string> debugIndex;
+	
 	std::string retMsg;
 	int stBeg;
 };

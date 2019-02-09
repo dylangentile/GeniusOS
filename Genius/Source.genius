@@ -1,11 +1,11 @@
 num x = 5;
 
+bool t = true;
+string z = "asd";
 
-
-
-num y = 12;
+num y = 5;
 string x = "hello", y, g = "w";
-
+/*
 z = x + y;
 x->y;
 num func_add(x, y){
@@ -24,7 +24,7 @@ ttt = 343;
 func(5, 7);
 
 
-
+*/
 
 /*x=1, g=3, z = 7, w =9, q =13;
 num y,z;
@@ -33,7 +33,7 @@ push x -> o;*/
 //hello
 
 
-
+/*
 class statement;
 class var_statement : statement;
 class func_statement : statement;
@@ -54,3 +54,4 @@ vector<statement> program;
 
 
 program.push(var_statement);
+*/
