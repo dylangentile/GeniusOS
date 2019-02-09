@@ -306,6 +306,25 @@ string Parser::parse(std::string srcFile, bool verbosity){
 	}
 
 	delete mylexer;
+
+
+
+	vector<Token> tokenVector;
+	vector<Token>::iterator it;
+	tokenVector = theTokenArray;
+
+
+	for (it = tokenVector.begin(); it != tokenVector.end();  it++)
+	{
+		Token theToken = *it;
+		
+
+
+
+
+
+	}
+
 	//cout << "\nArrSz="<< arraySize << "\nCArrSize:" << theTokenArray.size() << "\n\n";
 	for(int i = 0; i < theTokenArray.size(); i++){
 		cout << i << ":" <<theTokenArray.at(i).cargo <<"\n";
