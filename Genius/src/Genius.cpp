@@ -70,8 +70,8 @@ int main(int argc, char const *argv[])
 	
 	Parser *myparser = new Parser;
 
-	UsefulFunc *myrecursor = new UsefulFunc;
-	std::string msg = myparser->parse(thefile, true);
+	//UsefulFunc *myrecursor = new UsefulFunc;
+	std::string msg = myparser->begin(thefile, true);
 	
 
 	std::cout << msg;

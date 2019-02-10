@@ -1,19 +1,13 @@
 #include "parser.h"
+
 using namespace std;
-/*
-Node::Node(){
 
-}
-
-Node::~Node(){
-
-}
-*/
 
 Parser::Parser(){
 	worked = true;
 	stBeg =0;
 	mylexer = new Lexer;
+	reachedit = false;
 }
 Parser::~Parser(){
 
@@ -56,7 +50,7 @@ Parser::throwError(int errorId, int where, string msg){
 
 
 bool
-Parser::commaedInits(int stBeg, int idTwothTokenPos){
+Parser::commaedInits(int idTwothTokenPos, FuncStatement *theFunc){
 	int j = idTwothTokenPos;
 	while(true)
 	{
@@ -68,13 +62,28 @@ Parser::commaedInits(int stBeg, int idTwothTokenPos){
 		{
 			if(theTokenArray.at(stBeg+1+j).cat == kCat_COMMA)
 			{
-				auto temp = make_tuple(stBeg+j, -1);
+				Token temp;
+				temp.type = theTokenArray.at(stBeg+j).type;
+				temp.cat = kCat_VALUEUNSET;
 
-				//inputit
+				VarStatement *thestatement = new VarStatement;
+				thestatement->mName = theTokenArray.at(stBeg+j).cargo;
+				thestatement->mType = theTokenArray.at(stBeg);
+				thestatement->mValue = temp;
+				theFunc->mStatementVector.push_back(thestatement);				
 				mody = 2;
-			} else if(theTokenArray.at(stBeg+1+j).type == kToken_SEMICOLON){
-				auto temp = make_tuple(stBeg+j, -1);
-				//inputit
+			} 
+			else if(theTokenArray.at(stBeg+1+j).type == kToken_SEMICOLON)
+			{
+				Token temp;
+				temp.type = theTokenArray.at(stBeg+j).type;
+				temp.cat = kCat_VALUEUNSET;
+
+				VarStatement *thestatement = new VarStatement;
+				thestatement->mName = theTokenArray.at(stBeg+j).cargo;
+				thestatement->mType = theTokenArray.at(stBeg);
+				thestatement->mValue = temp;
+				theFunc->mStatementVector.push_back(thestatement);
 				j++;
 				break;
 			}
@@ -84,8 +93,12 @@ Parser::commaedInits(int stBeg, int idTwothTokenPos){
 				{
 					if(theTokenArray.at(stBeg+2+j).type == theTokenArray.at(stBeg).type)
 					{
-						auto temp = make_tuple(stBeg+j, stBeg+2+j);
-						//inputit
+						
+
+						VarStatement *thestatement = new VarStatement;
+						thestatement->mName = theTokenArray.at(stBeg+j).cargo;
+						thestatement->mType = theTokenArray.at(stBeg+j);
+						thestatement->mValue = theTokenArray.at(stBeg+j+2);
 
 						mody = 3;
 
@@ -122,12 +135,16 @@ Parser::commaedInits(int stBeg, int idTwothTokenPos){
 	return true;
 }
 
+#include <stdlib.h>
+
 bool 
-Parser::statement(FuncStatement *gFunc){
-	cout << "\n";
-	cout << "\n\nStbeg"<< stBeg;
+Parser::statement(FuncStatement *theFunc){
+	
 	int stLen = stBeg;
-	cout << "\n\nStleng" << stLen << "\n\n";
+	if(theTokenArray.at(stBeg).type  == kToken_CLOSE){
+		reachedit = true;
+		return true;
+	}
 	while(theTokenArray.at(stLen).type != kToken_SEMICOLON && theTokenArray.at(stLen).type != kToken_CLOSE){
 		stLen++;
 		if(stLen >= theTokenArray.size()){
@@ -135,8 +152,7 @@ Parser::statement(FuncStatement *gFunc){
 			return false;
 		}
 	}
-	cout << "\n\nStLeng = " << stLen;
-	cout << "\n\n\n";
+	
 
 	if(theTokenArray.at(stBeg).cat == kCat_TYPE)
 	{
@@ -152,15 +168,18 @@ Parser::statement(FuncStatement *gFunc){
 							thestatement->mName = theTokenArray.at(stBeg+1).cargo;
 							thestatement->mType = theTokenArray.at(stBeg);
 							thestatement->mValue = theTokenArray.at(stBeg+3);
-							gFunc->mStatementVector.push_back(thestatement);
+							theFunc->mStatementVector.push_back(thestatement);
 
 						}
 						else if(theTokenArray.at(stBeg+4).type == kToken_COMMA)
 						{
-							auto temp = make_tuple(stBeg+1, stBeg+3);
-							//inputit
+							VarStatement *thestatement = new VarStatement;
+							thestatement->mName = theTokenArray.at(stBeg+1).cargo;
+							thestatement->mType = theTokenArray.at(stBeg);
+							thestatement->mValue = theTokenArray.at(stBeg+3);
+							theFunc->mStatementVector.push_back(thestatement);
 		
-							bool result = commaedInits(stBeg, 5);
+							bool result = commaedInits(5, theFunc);
 							if(!result){
 								return false;
 							}
@@ -183,47 +202,67 @@ Parser::statement(FuncStatement *gFunc){
 			}
 			else if (theTokenArray.at(stBeg+2).type == kToken_SEMICOLON)
 			{
-				auto temp = make_tuple(stBeg+1, -1);
-				//inputit
+				Token temp;
+				temp.type = theTokenArray.at(stBeg).type;
+				temp.cat = kCat_VALUEUNSET;
+
+				VarStatement *thestatement = new VarStatement;
+				thestatement->mName = theTokenArray.at(stBeg+1).cargo;
+				thestatement->mType = theTokenArray.at(stBeg);
+				thestatement->mValue = temp;
+				theFunc->mStatementVector.push_back(thestatement);
 			
 			}
 			else if(theTokenArray.at(stBeg+2).type == kToken_COMMA)
 			{
-				auto ter = make_tuple(stBeg+1, -1); 
-				//inputit
-				bool result = commaedInits(stBeg, 3);
+				Token temp;
+				temp.type = theTokenArray.at(stBeg).type;
+				temp.cat = kCat_VALUEUNSET;
+
+				VarStatement *thestatement = new VarStatement;
+				thestatement->mName = theTokenArray.at(stBeg+1).cargo;
+				thestatement->mType = theTokenArray.at(stBeg);
+				thestatement->mValue = temp;
+				theFunc->mStatementVector.push_back(thestatement);
+				bool result = commaedInits(3, theFunc);
 				if(!result){
 					return false;
 				}
 			} 
 			else if(theTokenArray.at(stBeg+2).type == kToken_LPAREN)
 			{
-				cout << "\nlParen";
+	
+
 				if(theTokenArray.at(stBeg+3).type == kToken_RPAREN)
-				{ cout << "\nrParen";
+				{ 
 					if(theTokenArray.at(stBeg+4).type == kToken_OPEN)
 					{
-						cout << "\nFunction!\n";
 						int tst = stBeg+4;
 						while(theTokenArray.at(tst).type != kToken_CLOSE)
 						{
 							tst++;
 							if(tst >= theTokenArray.size())
 							{
+
 								throwError(4, stBeg);
 								return false;
 							}
-							else
-							{
-								stBeg = tst + 1;
-								//make function;
-							}
 						}
+						FuncStatement *pointfunc = new FuncStatement;
+						pointfunc->mName = theTokenArray.at(stBeg+1).cargo;
+						pointfunc->mType = theTokenArray.at(stBeg);
+						stBeg = stBeg+5;
+						int verytemp = stBeg;
+						parse(pointfunc);
+						theFunc->mStatementVector.push_back(pointfunc);
+						stBeg = verytemp;
+						stLen = tst;
+						
+
 					}
 				} 
 				else if(theTokenArray.at(stBeg+3).cat == kCat_TYPE)
 				{
-					cout << "\nType";
 				} 
 				else
 				{
@@ -276,12 +315,12 @@ Token Parser::fetchToken(){
 		return temp;
 }
 
-
-string Parser::parse(std::string srcFile, bool verbosity){
+string
+Parser::begin(std::string srcFile, bool verbosity){
 	verbose = verbosity;
+	filesrc = srcFile;
 	Token tok, initializer;
 	initializer = mylexer->lexerhandler(srcFile);
-	FuncStatement *gFunc = new FuncStatement;
 	while(true){
 		tok = fetchToken();
 
@@ -298,46 +337,46 @@ string Parser::parse(std::string srcFile, bool verbosity){
 	}
 
 	delete mylexer;
-
-
-/*
-	vector<Token> tokenVector;
-	vector<Token>::iterator it;
-	tokenVector = theTokenArray;
-
-
-	for (it = tokenVector.begin(); it != tokenVector.end();  it++)
-	{
-		Token theToken = *it;
-		
-
-
-
-
-
-	}
-*/
-	//cout << "\nArrSz="<< arraySize << "\nCArrSize:" << theTokenArray.size() << "\n\n";
 	for(int i = 0; i < theTokenArray.size(); i++){
 		cout << i << ":" <<theTokenArray.at(i).cargo <<"\n";
 	}
+
+	FuncStatement *gFunc = new FuncStatement;
+	
+
+	if(parse(gFunc)){
+		
+	}
+	gFunc->print(1);
+	return retMsg;
+}
+
+
+
+bool Parser::parse(FuncStatement *theFunc){
+	
 	bool x = true;
 	while(worked == true && x == true){
 		if(stBeg >= theTokenArray.size()){
 			break;
 		}
-		x = statement(gFunc);
+		x = statement(theFunc);
+		if(reachedit){
+			break;
+		}
 	}
-	if(!x){
-		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + srcFile + " during parsing.\n1\n";
+	reachedit = false;
+	if(!worked){
+		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + filesrc + " during parsing.\n1\n";
+		return false;
 	}
-	//for(int i = 0; i < debugIndex.size(); i++)
-	{
-		gFunc->printem();
 
-		//cout << "\n" << debugIndex.at(i) << ":" << j->second;
+
+	if(!x){
+		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + filesrc + " during parsing.\n1\n";
+		return false;
 	}
-	return retMsg;
+	return true;
 
 }
 

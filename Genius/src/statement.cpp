@@ -4,7 +4,7 @@
 using namespace std;
 
 Statement::Statement(){
-
+	sType = kState_UNKNOWN;
 }
 
 Statement::~Statement(){
@@ -12,8 +12,7 @@ Statement::~Statement(){
 }
 
 VarStatement::VarStatement(){
-
-
+	sType = kState_VAR;
 }
 
 VarStatement::~VarStatement(){
@@ -24,10 +23,8 @@ VarStatement::~VarStatement(){
 
 
 void
-VarStatement::print(){
-	cout << "\n" << mType.cargo << ": "<< mName << "=" << mValue.cargo;
-
-
+VarStatement::print(int down){
+	cout << mType.cargo << ": "<< mName << "=" << mValue.cargo << "\n";
 }
 
 
@@ -40,8 +37,10 @@ VarStatement::print(){
 
 
 
-FuncStatement::FuncStatement(){
-
+FuncStatement::FuncStatement()
+{
+	mName = "default_name";
+	sType = kState_FUNC;
 }
 
 FuncStatement::~FuncStatement(){
@@ -52,12 +51,16 @@ FuncStatement::~FuncStatement(){
 
 
 void
-FuncStatement::printem(){
+FuncStatement::print(int down){
 
 	vector<Statement*>::iterator it;
+	cout << "Function: " << mType.cargo << " " << mName << "\n";
 	for(it = mStatementVector.begin(); it != mStatementVector.end(); it++){
 		Statement *mystatement = *it;
-		mystatement->print();
+		for(int i = 0; i < down; i++){
+		cout << "\t";
+		}
+		mystatement->print(down + 1);
 	}
 
 

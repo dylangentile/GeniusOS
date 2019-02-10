@@ -5,6 +5,23 @@ string z = "asd";
 
 num y = 5;
 string x = "hello", y, g = "w";
+
+
+num afunction(){
+
+	num g;
+	string p;
+
+
+}
+
+num p;
+
+num anotherOne(){
+	num xl;
+	string dg = "dgr";
+}
+
 /*
 z = x + y;
 x->y;
@@ -24,16 +41,16 @@ ttt = 343;
 func(5, 7);
 
 
-*/
 
-/*x=1, g=3, z = 7, w =9, q =13;
+
+x=1, g=3, z = 7, w =9, q =13;
 num y,z;
 x = x+7;
-push x -> o;*/
+push x -> o;
 //hello
 
 
-/*
+
 class statement;
 class var_statement : statement;
 class func_statement : statement;
