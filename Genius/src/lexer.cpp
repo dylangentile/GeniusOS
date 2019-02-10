@@ -199,7 +199,7 @@ Lexer::tokenWrapper(Token self, bool showLineNumbers, bool align)
 
 
 void Lexer::abort(Token x, string msg){
-	cout << "You made a boo boo. Here's descriptive error description: \n\tIn file "<< fileMbrSv << " at " << lnDex <<":" << clDex << "\n";
+	cout << "You made a boo boo. Here's a descriptive error description: \n\tIn file "<< fileMbrSv << " at \u001b[31m" << lnDex+1 <<"\u001b[0m:\u001b[31m" << clDex+1 << "\u001b[0m\n";
 	cout <<  "\t\t[" << msg << "]\n";
 	getCharPackage();
 	doabort = true;
@@ -476,6 +476,9 @@ if(isTypeStartChars(c2) != kToken_UNKNOWN)
 			retPackage.type = kToken_BOOL;
 			retPackage.cat = kCat_VALUE;
 			return retPackage;
+		}
+		if(retPackage.cargo == "global"){
+			abort(retPackage, "'global' is a reserved keyword.");
 		}
 
 		retPackage.cat = kCat_IDENTIFIER;

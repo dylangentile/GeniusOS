@@ -8,10 +8,16 @@ Parser::Parser(){
 	stBeg =0;
 	mylexer = new Lexer;
 	reachedit = false;
+	errcount = 0;
 }
+
 Parser::~Parser(){
 
+
+
 }
+
+
 
 string
 Parser::errFormat(string append, int where, string msg, bool color){
@@ -27,7 +33,8 @@ void
 Parser::throwError(int errorId, int where, string msg){
 	//0 improper casting
 	//1 improper Syntax
-	//2 wrong value for type 
+	//2 wrong value for type
+	errcount++; 
 	switch(errorId){
 		case 0: retMsg += errFormat("\nGeneral Error\n\tCode:'0'", where, msg);
 			break;
@@ -40,6 +47,12 @@ Parser::throwError(int errorId, int where, string msg){
 		case 4:	retMsg += errFormat("\nCommon Error:\n\tCode:'4'", where, "Reached EndOfFile before EndOfStatement");
 			break;
 		case 5: retMsg += errFormat("\nDumb Error:\n\tCode:'5'", where, "Unexpected character(s)!");
+			break;
+		case 6: retMsg += errFormat("\nDumb Error:\n\tCode:'6'", where, "Cannot have a function within a function.");
+			break;
+		case 7: retMsg += errFormat("\nWildcard Error:\n\tCode:'7'", where, msg);
+			break;
+		case 8: retMsg += errFormat("\nSilly Error:\n\tCode:'8'", where, "Reallocation of variable/function: " + msg);
 			break;
 		case 666: retMsg += "\nSatanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
@@ -65,7 +78,10 @@ Parser::commaedInits(int idTwothTokenPos, FuncStatement *theFunc){
 				Token temp;
 				temp.type = theTokenArray.at(stBeg+j).type;
 				temp.cat = kCat_VALUEUNSET;
-
+				if(theFunc->compare(theTokenArray.at(stBeg+j).cargo)){
+					throwError(8, stBeg+j, theTokenArray.at(stBeg+j).cargo);
+					return false;
+				}
 				VarStatement *thestatement = new VarStatement;
 				thestatement->mName = theTokenArray.at(stBeg+j).cargo;
 				thestatement->mType = theTokenArray.at(stBeg);
@@ -78,7 +94,10 @@ Parser::commaedInits(int idTwothTokenPos, FuncStatement *theFunc){
 				Token temp;
 				temp.type = theTokenArray.at(stBeg+j).type;
 				temp.cat = kCat_VALUEUNSET;
-
+				if(theFunc->compare(theTokenArray.at(stBeg+j).cargo)){
+					throwError(8, stBeg+j, theTokenArray.at(stBeg+j).cargo);
+					return false;
+				}
 				VarStatement *thestatement = new VarStatement;
 				thestatement->mName = theTokenArray.at(stBeg+j).cargo;
 				thestatement->mType = theTokenArray.at(stBeg);
@@ -94,7 +113,10 @@ Parser::commaedInits(int idTwothTokenPos, FuncStatement *theFunc){
 					if(theTokenArray.at(stBeg+2+j).type == theTokenArray.at(stBeg).type)
 					{
 						
-
+						if(theFunc->compare(theTokenArray.at(stBeg+j).cargo)){
+							throwError(8, stBeg+j, theTokenArray.at(stBeg+j).cargo);
+							return false;
+						}
 						VarStatement *thestatement = new VarStatement;
 						thestatement->mName = theTokenArray.at(stBeg+j).cargo;
 						thestatement->mType = theTokenArray.at(stBeg+j);
@@ -164,6 +186,11 @@ Parser::statement(FuncStatement *theFunc){
 				{
 					if(theTokenArray.at(stBeg+3).type == theTokenArray.at(stBeg).type){
 						if(theTokenArray.at(stBeg+4).type == kToken_SEMICOLON){
+							if(theFunc->compare(theTokenArray.at(stBeg+1).cargo)){
+								throwError(8, stBeg+1, theTokenArray.at(stBeg+1).cargo);
+								return false;
+							}
+
 							VarStatement *thestatement = new VarStatement;
 							thestatement->mName = theTokenArray.at(stBeg+1).cargo;
 							thestatement->mType = theTokenArray.at(stBeg);
@@ -173,6 +200,10 @@ Parser::statement(FuncStatement *theFunc){
 						}
 						else if(theTokenArray.at(stBeg+4).type == kToken_COMMA)
 						{
+							if(theFunc->compare(theTokenArray.at(stBeg+1).cargo)){
+								throwError(8, stBeg+1, theTokenArray.at(stBeg+1).cargo);
+								return false;
+							}
 							VarStatement *thestatement = new VarStatement;
 							thestatement->mName = theTokenArray.at(stBeg+1).cargo;
 							thestatement->mType = theTokenArray.at(stBeg);
@@ -205,7 +236,10 @@ Parser::statement(FuncStatement *theFunc){
 				Token temp;
 				temp.type = theTokenArray.at(stBeg).type;
 				temp.cat = kCat_VALUEUNSET;
-
+				if(theFunc->compare(theTokenArray.at(stBeg+1).cargo)){
+					throwError(8, stBeg+1, theTokenArray.at(stBeg+1).cargo);
+					return false;
+				}
 				VarStatement *thestatement = new VarStatement;
 				thestatement->mName = theTokenArray.at(stBeg+1).cargo;
 				thestatement->mType = theTokenArray.at(stBeg);
@@ -218,7 +252,10 @@ Parser::statement(FuncStatement *theFunc){
 				Token temp;
 				temp.type = theTokenArray.at(stBeg).type;
 				temp.cat = kCat_VALUEUNSET;
-
+				if(theFunc->compare(theTokenArray.at(stBeg+1).cargo)){
+					throwError(8, stBeg+1, theTokenArray.at(stBeg+1).cargo);
+					return false;
+				}
 				VarStatement *thestatement = new VarStatement;
 				thestatement->mName = theTokenArray.at(stBeg+1).cargo;
 				thestatement->mType = theTokenArray.at(stBeg);
@@ -248,6 +285,16 @@ Parser::statement(FuncStatement *theFunc){
 								return false;
 							}
 						}
+						if(theFunc->mName != "global")
+						{
+							throwError(6, stBeg);
+							return false;
+						}
+
+						if(theFunc->compare(theTokenArray.at(stBeg+1).cargo)){
+							throwError(8, stBeg+1, theTokenArray.at(stBeg+1).cargo);
+							return false;
+						}
 						FuncStatement *pointfunc = new FuncStatement;
 						pointfunc->mName = theTokenArray.at(stBeg+1).cargo;
 						pointfunc->mType = theTokenArray.at(stBeg);
@@ -259,6 +306,11 @@ Parser::statement(FuncStatement *theFunc){
 						stLen = tst;
 						
 
+					}
+					else
+					{
+						throwError(7, stBeg+4, "Expected: '{'  but got: '" + theTokenArray.at(stBeg+4).cargo + "'");
+						return false;
 					}
 				} 
 				else if(theTokenArray.at(stBeg+3).cat == kCat_TYPE)
@@ -289,7 +341,7 @@ Parser::statement(FuncStatement *theFunc){
 		{
 			if(theTokenArray.at(stBeg+2).cat == kCat_VALUE)
 			{
-							}
+			}
 		}
 		else if(theTokenArray.at(stBeg+1).type == kToken_DOT)
 		{
@@ -329,7 +381,7 @@ Parser::begin(std::string srcFile, bool verbosity){
 			break;
 		}
 		if(mylexer->doabort == true){
-			retMsg = "Genius Compiler Version: " + retVersion() + " failed to compile " + srcFile + " during tokenization.\n1\n"; 
+			retMsg = "Genius Compiler Version: " + retVersion() + " failed to compile " + srcFile + " during tokenization."; 
 			worked = false;
 			break;
 		}
@@ -337,17 +389,18 @@ Parser::begin(std::string srcFile, bool verbosity){
 	}
 
 	delete mylexer;
+	/*
 	for(int i = 0; i < theTokenArray.size(); i++){
 		cout << i << ":" <<theTokenArray.at(i).cargo <<"\n";
 	}
-
+	*/
 	FuncStatement *gFunc = new FuncStatement;
 	
-
-	if(parse(gFunc)){
-		
+	gFunc->mName = "global";
+	if(!parse(gFunc)){
+		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + filesrc + " during parsing.\n\nGenius[Errors]: " + to_string(errcount);
 	}
-	gFunc->print(1);
+	//gFunc->print(1);
 	return retMsg;
 }
 
@@ -367,13 +420,11 @@ bool Parser::parse(FuncStatement *theFunc){
 	}
 	reachedit = false;
 	if(!worked){
-		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + filesrc + " during parsing.\n1\n";
 		return false;
 	}
 
 
 	if(!x){
-		retMsg +=  "\n\nGenius Compiler Version: " + retVersion() + " failed to compile " + filesrc + " during parsing.\n1\n";
 		return false;
 	}
 	return true;

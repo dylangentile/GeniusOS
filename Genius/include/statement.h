@@ -19,7 +19,8 @@ class Statement
 public:
 	Statement();
 	virtual ~Statement();
-	virtual void print(int down){}
+	virtual void print(int down) = 0;
+	virtual bool compare(std::string nameID) = 0;
 	Statetype sType;
 };
 
@@ -31,6 +32,8 @@ public:
 	std::string mName;
 	Token mValue, mType;
 	void print(int down);
+	bool compare(std::string nameID);
+
 
 	
 };
@@ -44,7 +47,7 @@ public:
 	Token mType;
 	std::vector<Statement*> mStatementVector;
 	
-
+	bool compare(std::string nameID);
 	void print(int down);
 	
 };

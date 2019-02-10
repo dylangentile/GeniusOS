@@ -1,16 +1,16 @@
 num x = 5;
-
+num globals;
 bool t = true;
 string z = "asd";
 
 num y = 5;
-string x = "hello", y, g = "w";
+string q = "hello", w, g = "w";
 
 
 num afunction(){
 
 	num g;
-	string p;
+	string o;
 
 
 }

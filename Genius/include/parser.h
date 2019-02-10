@@ -33,6 +33,6 @@ private:
 	std::vector <Token> theTokenArray;
 	
 	std::string retMsg;
-	int stBeg;
+	int stBeg, errcount;
 };
 

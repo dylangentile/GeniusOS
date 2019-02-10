@@ -29,7 +29,13 @@ VarStatement::print(int down){
 
 
 
-
+bool
+VarStatement::compare(string nameID){
+	if(mName == nameID){
+		return true;
+	}
+	return false;
+}
 
 
 
@@ -43,11 +49,28 @@ FuncStatement::FuncStatement()
 	sType = kState_FUNC;
 }
 
-FuncStatement::~FuncStatement(){
-
+FuncStatement::~FuncStatement()
+{
 }
 
+bool
+FuncStatement::compare(string nameID){
+	if(mName == nameID){
+		return true;
+	}
+	bool theret = false;
+	vector<Statement*>::iterator it;
+	for(it = mStatementVector.begin(); it != mStatementVector.end(); it++){
+		Statement *mystatement = *it;
+		if(mystatement->compare(nameID)){
+			theret = true;
+			break;
+		}
+	}
+	return theret;
 
+
+}
 
 
 void
