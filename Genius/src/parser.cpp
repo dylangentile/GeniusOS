@@ -35,7 +35,8 @@ Parser::throwError(int errorId, int where, string msg){
 	//1 improper Syntax
 	//2 wrong value for type
 	errcount++; 
-	switch(errorId){
+	switch(errorId)
+	{
 		case 0: retMsg += errFormat("\nGeneral Error\n\tCode:'0'", where, msg);
 			break;
 		case 1: retMsg += errFormat("\nGeneral Error:\n\tCode:'1'",where, msg);
@@ -61,6 +62,88 @@ Parser::throwError(int errorId, int where, string msg){
 	worked = false;
 }
 
+
+bool 
+Parser::equation(FuncStatement *theFunc)
+{
+	int j;
+	std::vector<TokenID> opVect;
+	if(theTokenArray.at(stBeg).cat == kCat_IDENTIFIER)
+	{
+		if(theTokenArray.at(stBeg+1).type == kToken_EQUALS)
+		{
+			if(theTokenArray.at(stBeg+2).cat == kCat_VALUE)
+			{
+				opVect.push_back(kCat_VALUE);
+				j =1;
+				while(true)
+				{
+					int mody;
+					if(theTokenArray.at(stBeg+j).type == kToken_SEMICOLON)
+					{
+						opVect.push_back(kToken_SEMICOLON);
+						break;
+					}
+					else if(theTokenArray.at(stBeg+j).cat == kCat_VALUE)
+					{
+						if(theTokenArray.at(stBeg).type == theTokenArray.at(stBeg+j).type)
+						{
+							opVect.push_back(kToken_NUMBER);
+							mody = 1;
+						}
+						else
+						{
+							throwError(2, stBeg+j, "Invalid value for type.");
+							return false;
+						}
+					} 
+					else if(theTokenArray.at(stBeg+j).cat == kCat_OPERATOR)
+					{
+						if(theTokenArray.at(stBeg+j+1).cat == kCat_VALUE)
+						{
+							opVect.push_back(kCat_OPERATOR);
+							mody = 1;
+						} else{
+							throwError(5, stBeg+j, theTokenArray.at(stBeg+j).cargo + " is Followed by a non-value: " +theTokenArray.at(stBeg+j+1).cargo);
+							return false;
+						}
+					} 
+					else
+					{
+						throwError(666, stBeg+j);
+						return false;
+					}
+					j += mody;
+
+				}
+
+			} 
+			else
+			{
+				throwError(5, stBeg, theTokenArray.at(stBeg).cargo + " is Followed by a non-value: " +theTokenArray.at(stBeg+2).cargo);
+				return false;
+			}
+		}
+		else 
+		{
+
+		}
+	} 
+	else 
+	{
+
+	}
+
+	for(int i = stBeg; i < (stBeg+j); i++){
+		int z = i - stBeg;
+
+		if(theTokenArray.at(i).type == kToken_LPAREN){
+			
+		}
+	}
+
+
+}
 
 bool
 Parser::commaedInits(int idTwothTokenPos, FuncStatement *theFunc){
@@ -341,6 +424,12 @@ Parser::statement(FuncStatement *theFunc){
 		{
 			if(theTokenArray.at(stBeg+2).cat == kCat_VALUE)
 			{
+				if(theTokenArray.at(stBeg+3).type == kToken_SEMICOLON){
+
+				}
+				else{
+					equation(theFunc);
+				}
 			}
 		}
 		else if(theTokenArray.at(stBeg+1).type == kToken_DOT)
@@ -368,7 +457,7 @@ Token Parser::fetchToken(){
 }
 
 string
-Parser::begin(std::string srcFile, bool verbosity){
+Parser::begin(std::string srcFile, bool verbosity, FuncStatement *gFunc){
 	verbose = verbosity;
 	filesrc = srcFile;
 	Token tok, initializer;
@@ -394,7 +483,7 @@ Parser::begin(std::string srcFile, bool verbosity){
 		cout << i << ":" <<theTokenArray.at(i).cargo <<"\n";
 	}
 	*/
-	FuncStatement *gFunc = new FuncStatement;
+	
 	
 	gFunc->mName = "global";
 	if(!parse(gFunc)){

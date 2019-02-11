@@ -9,7 +9,7 @@ string q = "hello", w, g = "w";
 
 num afunction(){
 
-	num g;
+	num t;
 	string o;
 
 
@@ -21,6 +21,9 @@ num anotherOne(){
 	num xl;
 	string dg = "dgr";
 }
+
+
+
 
 /*
 z = x + y;

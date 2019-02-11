@@ -28,7 +28,7 @@ LIBS =
 #-lmylib -lm
 
 # define the C source files
-SRCS = Genius.cpp arginterpreter.cpp parser.cpp lexer.cpp scanner.cpp character.cpp usefulFunctions.cpp statement.cpp
+SRCS = Genius.cpp arginterpreter.cpp parser.cpp lexer.cpp scanner.cpp character.cpp usefulFunctions.cpp statement.cpp interpreter.cpp
 
 # define the C object files 
 #

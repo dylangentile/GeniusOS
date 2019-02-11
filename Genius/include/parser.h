@@ -18,7 +18,7 @@ public:
 	~Parser();
 	bool statement(FuncStatement *gFunc);
 	bool parse(FuncStatement *theFunc);
-	std::string begin(std::string srcFile, bool verbosity);
+	std::string begin(std::string srcFile, bool verbosity, FuncStatement *outfunc);
 	std::string filesrc;
 	bool worked;
 
@@ -27,6 +27,7 @@ private:
 	void throwError(int errorId, int where, std::string msg = "");
 	bool commaedInits(int idTwothTokenPos, FuncStatement *theFunc);
 	std::string errFormat(std::string append, int where, std::string msg, bool color = true);
+	bool equation(FuncStatement *theFunc);
 private:
 	Lexer *mylexer;
 	bool verbose, reachedit;

@@ -19,6 +19,22 @@ VarStatement::~VarStatement(){
 
 }
 
+Operation::Operation(){
+
+}
+
+Operation::~Operation(){
+	
+}
+
+
+AssignmentStatement::AssignmentStatement(){
+	sType = kState_ASSIGNMENT;
+}
+
+AssignmentStatement::AssignmentStatement(){
+
+}
 
 
 

@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include "statement.h"
 #include "lexer.h"
 #include "parser.h"
 #include "arginterpreter.h"
 #include "usefulFunctions.h"
+#include "interpreter.h"
 #define BUFSIZE 100000
 //sytax == input outputdir --verbose/-v ||/&& --quick/-q
 int main(int argc, char const *argv[])
@@ -69,10 +71,11 @@ int main(int argc, char const *argv[])
 	myargreader->readArgs(argc, argv);
 	
 	Parser *myparser = new Parser;
-
+	FuncStatement *gFunc = new FuncStatement;
+	Interpreter *theInterpreter = new Interpreter;
 	//UsefulFunc *myrecursor = new UsefulFunc;
-	std::string msg = myparser->begin(thefile, true);
-	
+	std::string msg = myparser->begin(thefile, true, gFunc);
+	msg += theInterpreter->interpret(gFunc);
 
 	std::cout << msg;
 	
