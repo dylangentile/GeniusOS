@@ -1,6 +1,6 @@
 #pragma once
 #include "lexer.h"
-#include "interpreter.h"
+//#include "interpreter.h"
 #include <vector>
 #include <string>
 
@@ -14,24 +14,6 @@ typedef enum{
 
 }Statetype;
 
-typedef struct{
-	StackFType mType;
-	long long ival;
-	double dval;
-	bool isMop;
-	Operation *mOp;
-} Term;
-
-class Operation
-{
-public:
-	Operation();
-	~Operation();
-	std::vector<Term> termVector;
-
-	
-};
-
 
 class Statement
 {
@@ -43,16 +25,6 @@ public:
 	Statetype sType;
 };
 
-class AssignmentStatement
-{
-public:
-	AssignmentStatement();
-	~AssignmentStatement();
-	std::string mName;
-
-	Operation mOp;
-	void print(int down);
-};
 
 class VarStatement : public Statement
 {
@@ -68,6 +40,7 @@ public:
 	
 };
 
+
 class FuncStatement : public Statement
 {
 public:
@@ -80,4 +53,18 @@ public:
 	bool compare(std::string nameID);
 	void print(int down);
 	
+};
+
+
+class EquationStatement : public Statement 
+{
+public:
+	EquationStatement();
+	~EquationStatement();
+
+	std::string mName;
+
+	std::vector<std::string> opTokens;
+
+	void print(int down);
 };

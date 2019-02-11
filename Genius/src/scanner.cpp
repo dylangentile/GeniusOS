@@ -18,9 +18,6 @@ Scanner::Scanner(){
 }
 Scanner::~Scanner(){
 
-
-
-
 }
 void Scanner::initialize(string sourceTextArg){
 	

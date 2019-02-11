@@ -74,7 +74,7 @@ Parser::equation(FuncStatement *theFunc)
 		{
 			if(theTokenArray.at(stBeg+2).cat == kCat_VALUE)
 			{
-				opVect.push_back(kCat_VALUE);
+				opVect.push_back(theTokenArray.at(stBeg+2).type);
 				j =1;
 				while(true)
 				{
@@ -88,7 +88,7 @@ Parser::equation(FuncStatement *theFunc)
 					{
 						if(theTokenArray.at(stBeg).type == theTokenArray.at(stBeg+j).type)
 						{
-							opVect.push_back(kToken_NUMBER);
+							opVect.push_back(theTokenArray.at(stBeg).type);
 							mody = 1;
 						}
 						else
@@ -101,7 +101,7 @@ Parser::equation(FuncStatement *theFunc)
 					{
 						if(theTokenArray.at(stBeg+j+1).cat == kCat_VALUE)
 						{
-							opVect.push_back(kCat_OPERATOR);
+							//FIX! opVect.push_back(kCat_OPERATOR);
 							mody = 1;
 						} else{
 							throwError(5, stBeg+j, theTokenArray.at(stBeg+j).cargo + " is Followed by a non-value: " +theTokenArray.at(stBeg+j+1).cargo);

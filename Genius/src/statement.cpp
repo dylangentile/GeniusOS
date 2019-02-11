@@ -19,22 +19,6 @@ VarStatement::~VarStatement(){
 
 }
 
-Operation::Operation(){
-
-}
-
-Operation::~Operation(){
-	
-}
-
-
-AssignmentStatement::AssignmentStatement(){
-	sType = kState_ASSIGNMENT;
-}
-
-AssignmentStatement::AssignmentStatement(){
-
-}
 
 
 
@@ -103,4 +87,26 @@ FuncStatement::print(int down){
 	}
 
 
+}
+
+
+
+EquationStatement::EquationStatement(){
+
+}
+EquationStatement::~EquationStatement(){
+
+
+
+}
+void
+EquationStatement::print(int down){
+	vector<string>::iterator it;
+	for(it = opTokens.begin(); it != opTokens.end(); it++){
+		string myToken = *it;
+		for(int i = 0; i < down; i++){
+		cout << "\t";
+		}
+		cout << myToken;
+	}
 }
