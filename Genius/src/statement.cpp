@@ -108,5 +108,6 @@ EquationStatement::print(int down){
 		cout << "\t";
 		}
 		cout << myToken;
+
 	}
 }

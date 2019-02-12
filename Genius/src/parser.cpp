@@ -63,32 +63,35 @@ Parser::throwError(int errorId, int where, string msg){
 }
 
 
+
+
+
 bool 
 Parser::equation(FuncStatement *theFunc)
 {
 	int j;
-	std::vector<TokenID> opVect;
+	vector<TokenID> *opVect;
 	if(theTokenArray.at(stBeg).cat == kCat_IDENTIFIER)
 	{
 		if(theTokenArray.at(stBeg+1).type == kToken_EQUALS)
 		{
 			if(theTokenArray.at(stBeg+2).cat == kCat_VALUE)
 			{
-				opVect.push_back(theTokenArray.at(stBeg+2).type);
+				opVect->push_back(theTokenArray.at(stBeg+2).type);
 				j =1;
 				while(true)
 				{
 					int mody;
 					if(theTokenArray.at(stBeg+j).type == kToken_SEMICOLON)
 					{
-						opVect.push_back(kToken_SEMICOLON);
+						opVect->push_back(kToken_SEMICOLON);
 						break;
 					}
 					else if(theTokenArray.at(stBeg+j).cat == kCat_VALUE)
 					{
 						if(theTokenArray.at(stBeg).type == theTokenArray.at(stBeg+j).type)
 						{
-							opVect.push_back(theTokenArray.at(stBeg).type);
+							opVect->push_back(theTokenArray.at(stBeg).type);
 							mody = 1;
 						}
 						else
@@ -101,7 +104,7 @@ Parser::equation(FuncStatement *theFunc)
 					{
 						if(theTokenArray.at(stBeg+j+1).cat == kCat_VALUE)
 						{
-							//FIX! opVect.push_back(kCat_OPERATOR);
+							opVect->push_back(theTokenArray.at(stBeg+j).type);
 							mody = 1;
 						} else{
 							throwError(5, stBeg+j, theTokenArray.at(stBeg+j).cargo + " is Followed by a non-value: " +theTokenArray.at(stBeg+j+1).cargo);
@@ -134,12 +137,40 @@ Parser::equation(FuncStatement *theFunc)
 
 	}
 
-	for(int i = stBeg; i < (stBeg+j); i++){
+	for(int i = stBeg; i < (stBeg+j); i++)
+	{
 		int z = i - stBeg;
-
-		if(theTokenArray.at(i).type == kToken_LPAREN){
-			
+		if(opVect->at(z) == kToken_LPAREN)
+		{
+			int qtmp = z + 1;
+			while(true)
+			{
+				while(true)
+				{
+					if(((qtmp - 1)+stBeg) >= stBeg+j){
+						throwError(5, (qtmp+stBeg)-1, "didn't find a closing parenthese!");
+						return false;
+					}
+					if(opVect->at(qtmp) == kToken_LPAREN)
+					{
+						break;
+					}
+					if(opVect->at(qtmp) == kToken_RPAREN)
+					{
+						break;
+					}
+					qtmp++;
+				}
+				if(opVect->at(qtmp) == kToken_RPAREN){
+					break;
+				}
+				if(!(opVect->at(qtmp) == kToken_LPAREN)){
+					throwError(5, (qtmp+stBeg)-1);
+					return false;
+				}
+			}
 		}
+
 	}
 
 
