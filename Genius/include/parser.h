@@ -11,12 +11,6 @@
 #include <iterator>
 
 
-typedef struct 
-{
-	int level;
-	std::vector<Token> mTermTokVect;
-	
-}Term;
 
 class Parser{
 public:
@@ -33,7 +27,7 @@ private:
 	Token fetchToken();
 	void throwError(int errorId, int where, std::string msg = "");
 	bool commaedInits(int idTwothTokenPos, FuncStatement *theFunc);
-	std::string errFormat(std::string append, int where, std::string msg, bool color = true);
+	std::string errFormat(std::string append, int where, std::string msg, bool color = false);
 	bool equation(FuncStatement *theFunc);
 
 private:

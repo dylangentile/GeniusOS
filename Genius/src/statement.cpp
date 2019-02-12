@@ -102,12 +102,18 @@ EquationStatement::~EquationStatement(){
 void
 EquationStatement::print(int down){
 	vector<string>::iterator it;
-	for(it = opTokens.begin(); it != opTokens.end(); it++){
+	/*for(it = opTokens.begin(); it != opTokens.end(); it++){
 		string myToken = *it;
 		for(int i = 0; i < down; i++){
 		cout << "\t";
 		}
 		cout << myToken;
 
-	}
+	}*/
+}
+
+
+bool
+EquationStatement::compare(string nameID){
+	return false;
 }

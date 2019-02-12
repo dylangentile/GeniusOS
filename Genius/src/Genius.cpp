@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
 
 
 // OLD Lexer Handler. --Works well for testing, prints out the tokens along with what it thinks they are...
-/*
+
 
 	Token tok, initializer;
 
@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
 	}
 	
 	std::cout << "\n\n\n";
-*/
+
 
 
 

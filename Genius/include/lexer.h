@@ -69,6 +69,10 @@ typedef enum
 	kToken_COMMENT,
 	kToken_EMPTY,
 	kToken_COMMA,
+	kToken_OUT,
+	kToken_IN,
+	kToken_OSTREAM,
+	kToken_ISTREAM,
 	kToken_EOF
 	
 } TokenID;

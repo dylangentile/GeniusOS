@@ -25,6 +25,8 @@ Lexer::Lexer(){
 	mKeywordMap.insert(make_pair("push",kToken_PUSH));
 	mKeywordMap.insert(make_pair("return",kToken_RETURN));
 	mKeywordMap.insert(make_pair("quit",kToken_QUIT));
+	mKeywordMap.insert(make_pair("ostream", kToken_OSTREAM));
+	mKeywordMap.insert(make_pair("istream", kToken_ISTREAM));
 	mOperatorMap.insert(make_pair("{", kToken_OPEN));
 	mOperatorMap.insert(make_pair(",", kToken_COMMA));
 	mOperatorMap.insert(make_pair("}", kToken_CLOSE));
@@ -52,6 +54,8 @@ Lexer::Lexer(){
 	mOperatorMap.insert(make_pair("-=",kToken_MINUSEQUALS));
 	mOperatorMap.insert(make_pair("||",kToken_OR));
 	mOperatorMap.insert(make_pair("->", kToken_ARROW));
+	mOperatorMap.insert(make_pair(">>", kToken_OUT));
+	mOperatorMap.insert(make_pair("<<", kToken_IN));
 	mTypeMap.insert(make_pair("\"",kToken_QUOTE));
 	mTypeMap.insert(make_pair("string",kToken_STRING));
 	mTypeMap.insert(make_pair("num",kToken_NUMBER));

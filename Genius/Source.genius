@@ -10,10 +10,12 @@ string q = "hello", w, g = "w";
 num afunction(){
 
 	num t;
-	string o;
+	//string o;
 
 
 }
+string o = "Hello World";
+push o >> istream;
 
 num p;
 

@@ -15,6 +15,15 @@ typedef enum{
 }Statetype;
 
 
+typedef struct 
+{
+	int level;
+	std::vector<Token> mTermTokVect;
+	
+}Term;
+
+
+
 class Statement
 {
 public:
@@ -64,7 +73,7 @@ public:
 
 	std::string mName;
 
-	std::vector<std::string> opTokens;
-
+	std::vector<Term> termVector;
 	void print(int down);
+	bool compare(std::string nameID);
 };

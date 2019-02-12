@@ -55,6 +55,8 @@ Parser::throwError(int errorId, int where, string msg){
 			break;
 		case 8: retMsg += errFormat("\nSilly Error:\n\tCode:'8'", where, "Reallocation of variable/function: " + msg);
 			break;
+		case 9: retMsg += errFormat("\nUnusual Error:\n\tCode:'9'", where, "!!!!UNSUPPPORTED FEATURE!!!!");
+			break;
 		case 666: retMsg += "\nSatanic Error\n\tCode:'666'\n\t\tThis error sucks. It means something didn't work at: " + msg + "but the compiler doesn't know why, somehow.\n";
 			break;
 	}
@@ -70,6 +72,8 @@ bool
 Parser::equation(FuncStatement *theFunc)
 {
 	int j;
+	EquationStatement *theEquation = new EquationStatement;
+	theFunc->mStatementVector.push_back(theEquation);
 	vector<TokenID> *opVect;
 	if(theTokenArray.at(stBeg).cat == kCat_IDENTIFIER)
 	{
@@ -168,7 +172,14 @@ Parser::equation(FuncStatement *theFunc)
 					throwError(5, (qtmp+stBeg)-1);
 					return false;
 				}
+
 			}
+
+
+			for(int r = stBeg; r < qtmp+stBeg; i++){
+				//theEquation->mTermTokVect.push_back(theTokenArray.at(r));
+			}
+
 		}
 
 	}
@@ -473,6 +484,33 @@ Parser::statement(FuncStatement *theFunc){
 			//followed by unknown.
 		}
 	}
+
+	if(theTokenArray.at(stBeg).cat == kCat_KEYWORD){
+		if(theTokenArray.at(stBeg+1).type == kToken_PUSH){
+			if(theTokenArray.at(stBeg+2).cat == kCat_IDENTIFIER){
+				if(theTokenArray.at(stBeg+2).type == kToken_OUT){
+					if(theTokenArray.at(stBeg+3).type == kToken_OSTREAM){
+
+					}
+					else if(theTokenArray.at(stBeg+3).type == kToken_ISTREAM){
+						throwError(9, stBeg+3);
+						return false;
+					}
+				}
+				else if(theTokenArray.at(stBeg+2).type == kToken_IN)
+				{
+					if(theTokenArray.at(stBeg+3).type == kToken_ISTREAM){
+
+					}
+					else if(theTokenArray.at(stBeg+3).type == kToken_OSTREAM){
+						throwError(9, stBeg+3);
+						return false;
+					}
+				}
+			}
+		}
+	}
+
 	//continue to next statement;
 	stBeg += (stLen - stBeg) + 1;
 	return true; 
